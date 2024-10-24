@@ -1,0 +1,422 @@
+GIT
+  remote: https://github.com/ganchdev/authie.git
+  revision: 84c9fc2a148c4e4528484d3afb1eafc9c6e759b4
+  branch: main
+  specs:
+    authie (4.2.0)
+      activerecord (>= 6.1, <= 8.1)
+
+GIT
+  remote: https://github.com/rails/rails.git
+  revision: 7fac5d14d00fcc8dc60b49729abe78223ad3bf00
+  branch: main
+  specs:
+    actioncable (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      nio4r (~> 2.0)
+      websocket-driver (>= 0.6.1)
+      zeitwerk (~> 2.6)
+    actionmailbox (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      mail (>= 2.8.0)
+    actionmailer (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      mail (>= 2.8.0)
+      rails-dom-testing (~> 2.2)
+    actionpack (8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      nokogiri (>= 1.8.5)
+      rack (>= 2.2.4)
+      rack-session (>= 1.0.1)
+      rack-test (>= 0.6.3)
+      rails-dom-testing (~> 2.2)
+      rails-html-sanitizer (~> 1.6)
+      useragent (~> 0.16)
+    actiontext (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      globalid (>= 0.6.0)
+      nokogiri (>= 1.8.5)
+    actionview (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      builder (~> 3.1)
+      erubi (~> 1.11)
+      rails-dom-testing (~> 2.2)
+      rails-html-sanitizer (~> 1.6)
+    activejob (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      globalid (>= 0.3.6)
+    activemodel (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+    activerecord (8.1.0.alpha)
+      activemodel (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      timeout (>= 0.4.0)
+    activestorage (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      marcel (~> 1.0)
+    activesupport (8.1.0.alpha)
+      base64
+      benchmark (>= 0.3)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.3.1)
+      connection_pool (>= 2.2.5)
+      drb
+      i18n (>= 1.6, < 2)
+      logger (>= 1.4.2)
+      minitest (>= 5.1)
+      securerandom (>= 0.3)
+      tzinfo (~> 2.0, >= 2.0.5)
+      uri (>= 0.13.1)
+    rails (8.1.0.alpha)
+      actioncable (= 8.1.0.alpha)
+      actionmailbox (= 8.1.0.alpha)
+      actionmailer (= 8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      actiontext (= 8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activemodel (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      bundler (>= 1.15.0)
+      railties (= 8.1.0.alpha)
+    railties (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      irb (~> 1.13)
+      rackup (>= 1.0.0)
+      rake (>= 12.2)
+      thor (~> 1.0, >= 1.2.2)
+      zeitwerk (~> 2.6)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
+    base64 (0.2.0)
+    bcrypt_pbkdf (1.1.1)
+    bcrypt_pbkdf (1.1.1-arm64-darwin)
+    bcrypt_pbkdf (1.1.1-x86_64-darwin)
+    benchmark (0.3.0)
+    bigdecimal (3.1.8)
+    bindex (0.8.1)
+    bootsnap (1.18.4)
+      msgpack (~> 1.2)
+    brakeman (6.2.2)
+      racc
+    builder (3.3.0)
+    capybara (3.40.0)
+      addressable
+      matrix
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.11)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (>= 1.5, < 3.0)
+      xpath (~> 3.2)
+    coderay (1.1.3)
+    concurrent-ruby (1.3.4)
+    connection_pool (2.4.1)
+    crass (1.0.6)
+    date (3.3.4)
+    debug (1.9.2)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
+    dotenv (3.1.4)
+    dotenv-rails (3.1.4)
+      dotenv (= 3.1.4)
+      railties (>= 6.1)
+    drb (2.2.1)
+    ed25519 (1.3.0)
+    erubi (1.13.0)
+    et-orbi (1.2.11)
+      tzinfo
+    faraday (2.12.0)
+      faraday-net_http (>= 2.0, < 3.4)
+      json
+      logger
+    faraday-net_http (3.3.0)
+      net-http
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
+    globalid (1.2.1)
+      activesupport (>= 6.1)
+    hashie (5.0.0)
+    i18n (1.14.6)
+      concurrent-ruby (~> 1.0)
+    importmap-rails (2.0.3)
+      actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      railties (>= 6.0.0)
+    io-console (0.7.2)
+    irb (1.14.1)
+      rdoc (>= 4.0.0)
+      reline (>= 0.4.2)
+    json (2.7.3)
+    jwt (2.9.3)
+      base64
+    kamal (2.2.2)
+      activesupport (>= 7.0)
+      base64 (~> 0.2)
+      bcrypt_pbkdf (~> 1.0)
+      concurrent-ruby (~> 1.2)
+      dotenv (~> 3.1)
+      ed25519 (~> 1.2)
+      net-ssh (~> 7.0)
+      sshkit (>= 1.23.0, < 2.0)
+      thor (~> 1.3)
+      zeitwerk (~> 2.5)
+    logger (1.6.1)
+    loofah (2.23.0)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.12.0)
+    mail (2.8.1)
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    marcel (1.0.4)
+    matrix (0.4.2)
+    method_source (1.1.0)
+    mini_mime (1.1.5)
+    minitest (5.25.1)
+    msgpack (1.7.3)
+    multi_xml (0.6.0)
+    net-http (0.4.1)
+      uri
+    net-imap (0.5.0)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.2)
+      timeout
+    net-scp (4.0.0)
+      net-ssh (>= 2.6.5, < 8.0.0)
+    net-sftp (4.0.0)
+      net-ssh (>= 5.0.0, < 8.0.0)
+    net-smtp (0.5.0)
+      net-protocol
+    net-ssh (7.3.0)
+    nio4r (2.7.3)
+    nokogiri (1.16.7-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.7-x86_64-linux)
+      racc (~> 1.4)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
+    omniauth (2.1.2)
+      hashie (>= 3.4.6)
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-google-oauth2 (1.2.0)
+      jwt (>= 2.9)
+      oauth2 (~> 2.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
+    omniauth-oauth2 (1.8.0)
+      oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.2)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
+    ostruct (0.6.0)
+    propshaft (1.1.0)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    psych (5.1.2)
+      stringio
+    public_suffix (6.0.1)
+    puma (6.4.3)
+      nio4r (~> 2.0)
+    raabro (1.4.0)
+    racc (1.8.1)
+    rack (3.1.8)
+    rack-protection (4.0.0)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0, < 4)
+    rack-session (2.0.0)
+      rack (>= 3.0.0)
+    rack-test (2.1.0)
+      rack (>= 1.3)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
+    rails-dom-testing (2.2.0)
+      activesupport (>= 5.0.0)
+      minitest
+      nokogiri (>= 1.6)
+    rails-html-sanitizer (1.6.0)
+      loofah (~> 2.21)
+      nokogiri (~> 1.14)
+    rake (13.2.1)
+    rdoc (6.7.0)
+      psych (>= 4.0.0)
+    regexp_parser (2.9.2)
+    reline (0.5.10)
+      io-console (~> 0.5)
+    rexml (3.3.9)
+    rubyzip (2.3.2)
+    securerandom (0.3.1)
+    selenium-webdriver (4.25.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 3.0)
+      websocket (~> 1.0)
+    slop (3.6.0)
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
+    solid_cable (3.0.2)
+      actioncable (>= 7.2)
+      activejob (>= 7.2)
+      activerecord (>= 7.2)
+      railties (>= 7.2)
+    solid_cache (1.0.6)
+      activejob (>= 7.2)
+      activerecord (>= 7.2)
+      railties (>= 7.2)
+    solid_queue (1.0.0)
+      activejob (>= 7.1)
+      activerecord (>= 7.1)
+      concurrent-ruby (>= 1.3.1)
+      fugit (~> 1.11.0)
+      railties (>= 7.1)
+      thor (~> 1.3.1)
+    sqlite3 (2.1.1-aarch64-linux-gnu)
+    sqlite3 (2.1.1-aarch64-linux-musl)
+    sqlite3 (2.1.1-arm-linux-gnu)
+    sqlite3 (2.1.1-arm-linux-musl)
+    sqlite3 (2.1.1-arm64-darwin)
+    sqlite3 (2.1.1-x86-linux-gnu)
+    sqlite3 (2.1.1-x86-linux-musl)
+    sqlite3 (2.1.1-x86_64-darwin)
+    sqlite3 (2.1.1-x86_64-linux-gnu)
+    sqlite3 (2.1.1-x86_64-linux-musl)
+    sshkit (1.23.2)
+      base64
+      net-scp (>= 1.1.2)
+      net-sftp (>= 2.1.2)
+      net-ssh (>= 2.8.0)
+      ostruct
+    stimulus-rails (1.3.4)
+      railties (>= 6.0.0)
+    stringio (3.1.1)
+    thor (1.3.2)
+    thruster (0.1.8)
+    thruster (0.1.8-aarch64-linux)
+    thruster (0.1.8-arm64-darwin)
+    thruster (0.1.8-x86_64-darwin)
+    thruster (0.1.8-x86_64-linux)
+    timeout (0.4.1)
+    turbo-rails (2.0.11)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    uri (0.13.1)
+    useragent (0.16.10)
+    version_gem (1.1.4)
+    web-console (4.2.1)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
+    webrick (1.8.2)
+    websocket (1.2.11)
+    websocket-driver (0.7.6)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.5)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
+    zeitwerk (2.7.1)
+
+PLATFORMS
+  aarch64-linux
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  x86-linux
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux
+  x86_64-linux-gnu
+  x86_64-linux-musl
+
+DEPENDENCIES
+  annotate
+  authie!
+  bootsnap
+  brakeman
+  capybara
+  debug
+  dotenv-rails
+  importmap-rails
+  kamal
+  omniauth
+  omniauth-google-oauth2
+  omniauth-rails_csrf_protection
+  propshaft
+  pry-remote
+  puma (>= 5.0)
+  rails!
+  selenium-webdriver
+  solid_cable
+  solid_cache
+  solid_queue
+  sqlite3 (>= 2.1)
+  stimulus-rails
+  thruster
+  turbo-rails
+  tzinfo-data
+  web-console
+
+BUNDLED WITH
+   2.5.16
