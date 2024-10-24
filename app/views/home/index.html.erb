@@ -1,6 +1,30 @@
-<%= current_user.inspect %>
+<dl>
+  <dt>ID</dt>
+  <dd><%= current_user.id %></dd>
 
-<span data-controller="hello">A thing</span>
+  <dt>Name</dt>
+  <dd><%= current_user.name %></dd>
+
+  <dt>Email</dt>
+  <dd><%= current_user.email %></dd>
+
+  <dt>First Name</dt>
+  <dd><%= current_user.first_name %></dd>
+
+  <dt>Last Name</dt>
+  <dd><%= current_user.last_name %></dd>
+
+  <dt>Profile Image</dt>
+  <dd><%= image_tag current_user.image, alt: "Profile Image", width: 50 %></dd>
+
+  <dt>Created At</dt>
+  <dd><%= current_user.created_at %></dd>
+
+  <dt>Updated At</dt>
+  <dd><%= current_user.updated_at %></dd>
+</dl>
+
+<hr>
 
 <%= link_to logout_path, method: :delete do %>
   Logout
