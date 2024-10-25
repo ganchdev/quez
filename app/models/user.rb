@@ -20,6 +20,8 @@
 
 class User < ApplicationRecord
 
+  has_many :quizzes
+
   validates :name, :email, :first_name, :last_name, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: { case_sensitive: true }
 

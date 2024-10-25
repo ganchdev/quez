@@ -17,3 +17,17 @@
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: John Doe
+  email: john.doe@email.dev 
+  first_name: John
+  last_name: Doe
+  image: https://example.com
+
+two:
+  name: Doe John
+  email: doe.john@email.dev
+  first_name: Doe
+  last_name: John
+  image: https://example.com

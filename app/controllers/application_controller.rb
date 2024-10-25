@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_session_error
-    redirect_to login_path, alert: "Your session is no longer valid. Please login again to continue..."
+    redirect_to auth_path, alert: "Your session is no longer valid. Please login again to continue..."
   end
 
 end

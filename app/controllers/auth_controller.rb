@@ -2,6 +2,8 @@
 
 class AuthController < ApplicationController
 
+  layout "auth"
+
   skip_before_action :login_required, only: [:new, :callback]
   before_action :redirect_if_logged_in, only: [:new, :callback]
 

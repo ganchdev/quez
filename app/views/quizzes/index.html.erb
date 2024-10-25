@@ -1,0 +1,16 @@
+<% content_for :title, "Quizzes" %>
+
+<h1>Quizzes</h1>
+
+<div id="quizzes">
+  <% @quizzes.each do |quiz| %>
+    <div style="border: 0.5px solid gray; padding: 5px;">
+      <%= render quiz %>
+      <p>
+        <%= link_to "Show this quiz", quiz %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "New quiz", new_quiz_path %>

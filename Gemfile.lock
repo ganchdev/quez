@@ -201,6 +201,8 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.1)
+    mocha (2.5.0)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.7.3)
     multi_xml (0.6.0)
     net-http (0.4.1)
@@ -298,6 +300,7 @@ GEM
     reline (0.5.10)
       io-console (~> 0.5)
     rexml (3.3.9)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     securerandom (0.3.1)
     selenium-webdriver (4.25.0)
@@ -400,6 +403,7 @@ DEPENDENCIES
   dotenv-rails
   importmap-rails
   kamal
+  mocha
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection

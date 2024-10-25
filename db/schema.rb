@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2024_10_24_210857) do
+ActiveRecord::Schema[8.1].define(version: 2024_10_24_222229) do
   create_table "authie_sessions", force: :cascade do |t|
     t.string "token"
     t.string "browser_id"
@@ -44,6 +44,14 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_24_210857) do
     t.index ["user_id"], name: "index_authie_sessions_on_user_id"
   end
 
+  create_table "quizzes", force: :cascade do |t|
+    t.string "title"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_quizzes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -54,4 +62,6 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_24_210857) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
+
+  add_foreign_key "quizzes", "users"
 end

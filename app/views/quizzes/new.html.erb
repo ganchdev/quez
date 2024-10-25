@@ -1,0 +1,11 @@
+<% content_for :title, "New quiz" %>
+
+<h1>New quiz</h1>
+
+<%= render "form", quiz: @quiz %>
+
+<br>
+
+<div>
+  <%= link_to "<- Back", "javascript:history.back()" %>
+</div>
