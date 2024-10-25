@@ -50,12 +50,10 @@ class QuizzesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_quiz
     @quiz = Quiz.find(params.expect(:id))
   end
 
-  # Only allow a list of trusted parameters through.
   def quiz_params
     params.expect(quiz: [:title])
   end

@@ -28,7 +28,7 @@ class Question < ApplicationRecord
   private
 
   def answers_count
-    return if new_record?
+    return if new_record? || answers.empty?
 
     if answers.size < 2
       errors.add("not enough answers")

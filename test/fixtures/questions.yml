@@ -22,3 +22,7 @@ one:
 two:
   quiz: two
   text: MyText
+
+three:
+  quiz: one
+  text: MyText
