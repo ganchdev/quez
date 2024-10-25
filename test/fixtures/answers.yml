@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id          :integer          not null, primary key
+#  correct     :boolean          default(FALSE), not null
+#  text        :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  question_id :integer          not null
+#
+# Indexes
+#
+#  index_answers_on_question_id  (question_id)
+#
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: one
+  text: MyText
+  correct: false
+
+two:
+  question: two
+  text: MyText
+  correct: false

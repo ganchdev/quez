@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "annotate"
+gem "annotaterb"
 gem "authie", github: "ganchdev/authie", branch: "main"
 gem "dotenv-rails"
 gem "importmap-rails"

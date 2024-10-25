@@ -20,7 +20,7 @@
 
 class User < ApplicationRecord
 
-  has_many :quizzes
+  has_many :quizzes, dependent: :destroy
 
   validates :name, :email, :first_name, :last_name, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: { case_sensitive: true }
