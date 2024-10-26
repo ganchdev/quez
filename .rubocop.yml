@@ -3,7 +3,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - "bin/*"
-    - "db/*"
+    - "db/**/*"
 
 # Always use double quotes
 Style/StringLiterals:

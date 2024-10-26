@@ -18,10 +18,15 @@
 
 one:
   question: one
-  text: MyText
-  correct: false
+  text: Answer One 
+  correct: true
 
 two:
   question: two
-  text: MyText
+  text: Answer Two
+  correct: false
+
+three:
+  question: three
+  text: Answer Three
   correct: false

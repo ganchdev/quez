@@ -16,9 +16,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: QuizOne
+  title: Quiz One
   user: one
 
 two:
-  title: QuizTwo
+  title: Quiz Two
   user: two

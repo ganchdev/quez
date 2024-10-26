@@ -2,6 +2,11 @@
   <p>
     <strong>Text:</strong>
     <%= question.text %>
+    <% if question.image.attached? %>
+      <%= image_tag url_for(question.image) %>
+    <% else %>
+      <p>No image available</p>
+    <% end %>
   </p>
 
 </div>

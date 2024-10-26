@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :quizzes do
     resources :questions, except: :index do
-      resources :answers, except: :index
+      resources :answers, except: [:index, :show]
     end
   end
 end

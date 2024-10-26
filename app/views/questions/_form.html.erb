@@ -17,6 +17,16 @@
   </div>
 
   <div>
+    <%= form.label :points, style: "display: block" %>
+    <%= form.number_field :points, min: 0 %>
+  </div>
+
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

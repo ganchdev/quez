@@ -3,6 +3,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
+#  points     :integer          default(1)
 #  text       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -17,12 +18,15 @@
 
 one:
   quiz: one
-  text: MyText
+  text: Question One
+  points: 10
 
 two:
   quiz: two
-  text: MyText
+  text: Question Two 
+  points: 20
 
 three:
   quiz: one
-  text: MyText
+  text: Question Three
+  points: 30

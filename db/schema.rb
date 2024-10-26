@@ -84,6 +84,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_25_180834) do
   create_table "questions", force: :cascade do |t|
     t.integer "quiz_id", null: false
     t.text "text"
+    t.integer "points", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quiz_id"], name: "index_questions_on_quiz_id"

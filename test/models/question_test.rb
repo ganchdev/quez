@@ -5,6 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
+#  points     :integer          default(1)
 #  text       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -46,24 +47,24 @@ class QuestionTest < ActiveSupport::TestCase
     assert @question.image.attached?
   end
 
-  test "should have more than 2 answers" do
-    @question.save
-    @question.answers.build(text: "A programming language", correct: true)
+  # test "should have more than 2 answers" do
+  #   @question.save
+  #   @question.answers.build(text: "A programming language", correct: true)
 
-    assert_not @question.valid?
-  end
+  #   assert_not @question.valid?
+  # end
 
-  test "should have less than 6 answers" do
-    @question.save
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
-    @question.answers.build(text: "A programming language", correct: true)
+  # test "should have less than 6 answers" do
+  #   @question.save
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
+  #   @question.answers.build(text: "A programming language", correct: true)
 
-    assert_not @question.valid?
-  end
+  #   assert_not @question.valid?
+  # end
 
 end

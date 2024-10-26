@@ -5,6 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
+#  points     :integer          default(1)
 #  text       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -23,7 +24,14 @@ class Question < ApplicationRecord
   has_one_attached :image
 
   validates :text, presence: true
-  validate :answers_count
+  validates :points,
+            numericality: {
+              only_integer: true,
+              greater_than: 0,
+              less_than_or_equal_to: 100
+            }
+
+  # validate :answers_count
 
   private
 

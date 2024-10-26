@@ -1,13 +1,17 @@
+<h1 style="color: white">Quizzes#Show</h1>
+
 <%= render @quiz %>
 
-<h2>Questions</h2>
+<h3>Questions</h3>
 
 <div id="questions">
   <% @quiz.questions.each do |question| %>
-    <%= render question %>
-    <p>
-      <%= link_to "Show this question", quiz_question_path(@quiz, question) %>
-    </p>
+    <div style="border: 0.5px solid gray; padding: 5px;">
+      <%= render question %>
+      <p>
+        <%= link_to "Show this question", quiz_question_path(@quiz, question) %>
+      </p>
+    </div>
   <% end %>
 </div>
 
