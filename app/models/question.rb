@@ -31,18 +31,14 @@ class Question < ApplicationRecord
               less_than_or_equal_to: 100
             }
 
-  # validate :answers_count
+  validate :image_size
 
   private
 
-  def answers_count
-    return if new_record? || answers.empty?
+  def image_size
+    return unless image.attached? && image.blob.byte_size > 2.megabytes
 
-    if answers.size < 2
-      errors.add("not enough answers")
-    elsif answers.size > 6
-      errors.add("too many answers")
-    end
+    errors.add(:image, "is too large. Maximum size is 2 MB.")
   end
 
 end

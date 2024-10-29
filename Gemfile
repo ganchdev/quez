@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem "annotaterb"
 gem "authie", github: "ganchdev/authie", branch: "main"
 gem "dotenv-rails"
+gem "image_processing", "~> 1.2"
 gem "importmap-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"

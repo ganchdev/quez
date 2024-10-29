@@ -2,8 +2,8 @@
   <p>
     <strong>Text:</strong>
     <%= question.text %>
-    <% if question.image.attached? %>
-      <%= image_tag url_for(question.image) %>
+    <% if question.image.representable? %>
+      <%= image_tag question.image.representation(resize_to_limit: [100, 100]), alt: "Question Image" %>
     <% else %>
       <p>No image available</p>
     <% end %>
