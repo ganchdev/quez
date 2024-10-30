@@ -6,6 +6,7 @@
 #
 #  id         :integer          not null, primary key
 #  points     :integer          default(1)
+#  position   :integer
 #  text       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -17,6 +18,10 @@
 #
 
 class Question < ApplicationRecord
+
+  include HasPosition
+
+  position_scope :quiz
 
   belongs_to :quiz
   has_many :answers, dependent: :destroy

@@ -5,7 +5,9 @@
 # Table name: answers
 #
 #  id          :integer          not null, primary key
+#  color       :string
 #  correct     :boolean          default(FALSE), not null
+#  position    :integer
 #  text        :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -17,6 +19,10 @@
 #
 
 class Answer < ApplicationRecord
+
+  include HasPosition
+
+  position_scope :question
 
   belongs_to :question
 

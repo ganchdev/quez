@@ -7,6 +7,7 @@ class CreateQuestions < ActiveRecord::Migration[8.1]
       t.references :quiz, null: false
       t.text :text
       t.integer :points, default: 1
+      t.integer :position
 
       t.timestamps
     end

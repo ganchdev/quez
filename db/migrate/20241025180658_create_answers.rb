@@ -7,6 +7,8 @@ class CreateAnswers < ActiveRecord::Migration[8.1]
       t.references :question, null: false
       t.text :text
       t.boolean :correct, default: false, null: false
+      t.string :color
+      t.integer :position
 
       t.timestamps
     end

@@ -43,6 +43,8 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_25_180834) do
     t.integer "question_id", null: false
     t.text "text"
     t.boolean "correct", default: false, null: false
+    t.string "color"
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
@@ -85,6 +87,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_25_180834) do
     t.integer "quiz_id", null: false
     t.text "text"
     t.integer "points", default: 1
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quiz_id"], name: "index_questions_on_quiz_id"
