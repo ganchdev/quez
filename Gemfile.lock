@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 7fac5d14d00fcc8dc60b49729abe78223ad3bf00
+  revision: 96ea77265b8295e9559bb4aeeeddc88463538872
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -199,7 +199,7 @@ GEM
       thor (~> 1.3)
       zeitwerk (~> 2.5)
     logger (1.6.1)
-    loofah (2.23.0)
+    loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -233,7 +233,7 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     net-ssh (7.3.0)
-    nio4r (2.7.3)
+    nio4r (2.7.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm-linux)
