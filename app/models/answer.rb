@@ -26,7 +26,19 @@ class Answer < ApplicationRecord
 
   belongs_to :question
 
+  MAX_ANSWERS = 6
+
   validates :text, presence: true
   validates :correct, inclusion: [true, false]
+
+  validate :answer_limit
+
+  private
+
+  def answer_limit
+    return unless question.answers.count >= MAX_ANSWERS
+
+    errors.add(:base, "Cannot add more than #{MAX_ANSWERS} answers to a question")
+  end
 
 end

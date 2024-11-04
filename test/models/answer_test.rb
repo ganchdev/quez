@@ -22,6 +22,8 @@ require "test_helper"
 
 class AnswerTest < ActiveSupport::TestCase
 
+  MAX_ANSWERS = 6
+
   def setup
     @answer = Answer.new(text: "A programming language", correct: true, question: questions(:one))
   end
@@ -42,6 +44,15 @@ class AnswerTest < ActiveSupport::TestCase
   test "correct should be true or false" do
     @answer.correct = nil
     assert_not @answer.valid?
+  end
+
+  test "should not allow more than MAX_ANSWERS answers for a question" do
+    question = questions(:one)
+    5.times { question.answers.create!(text: "Sample answer") }
+
+    extra_answer = question.answers.build(text: "Extra answer")
+    assert_not extra_answer.valid?, "Answer should be invalid as it exceeds the answer limit"
+    assert_includes extra_answer.errors[:base], "Cannot add more than #{MAX_ANSWERS} answers to a question"
   end
 
 end
