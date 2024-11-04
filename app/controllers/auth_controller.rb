@@ -11,7 +11,7 @@ class AuthController < ApplicationController
   end
 
   def callback
-    auth_data = request.env["omniauth.auth"]["info"]
+    auth_data = provider_auth_data(request.env["omniauth.auth"]["info"])
 
     begin
       user = find_or_create_user(auth_data)
@@ -35,15 +35,25 @@ class AuthController < ApplicationController
   private
 
   def find_or_create_user(auth_data)
-    user = User.find_or_initialize_by(email: auth_data["email"]) do |u|
-      u.name = auth_data["name"]
-      u.first_name = auth_data["first_name"]
-      u.last_name = auth_data["last_name"]
-      u.image = auth_data["image"]
+    user = User.find_or_initialize_by(email: auth_data[:email]) do |u|
+      u.name = auth_data[:name]
+      u.first_name = auth_data[:first_name]
+      u.last_name = auth_data[:last_name]
+      u.image = auth_data[:image]
     end
 
     user.save! if user.new_record?
     user
+  end
+
+  def provider_auth_data(auth)
+    {
+      email: auth["email"],
+      name: auth["name"],
+      first_name: auth["first_name"] || auth["name"]&.split&.first,
+      last_name: auth["last_name"] || auth["name"]&.split&.last,
+      image: auth["image"]
+    }
   end
 
 end
