@@ -24,6 +24,8 @@ class Quiz < ApplicationRecord
   validates :title, presence: true
 
   def playable?
+    return false if questions.empty?
+
     questions.none? { |q| q.answers.count < 2 }
   end
 

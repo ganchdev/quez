@@ -8,17 +8,21 @@
 #  key        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  host_id    :integer          not null
 #  quiz_id    :integer          not null
 #
 # Indexes
 #
+#  index_games_on_host_id  (host_id)
 #  index_games_on_key      (key)
 #  index_games_on_quiz_id  (quiz_id)
 #
 one:
   quiz: one
+  host: one
   key: SbYIR8LQ7drSVY5YT5E9BGdXiteHEiDs
 
 two:
   quiz: two
+  host: two
   key: NP3SRtw9D95Y2fDJ8giVFOkW5quG29sN

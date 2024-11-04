@@ -2,7 +2,7 @@
 
 class QuizzesController < ApplicationController
 
-  before_action :set_quiz, only: [:show, :edit, :update, :destroy]
+  before_action :set_quiz, except: [:new, :index, :create]
 
   # GET /quizzes
   def index
@@ -46,6 +46,16 @@ class QuizzesController < ApplicationController
   def destroy
     @quiz.destroy!
     redirect_to quizzes_path, notice: "Quiz was successfully destroyed.", status: :see_other
+  end
+
+  # POST /quizzes/1/play
+  def play
+    if @quiz.playable?
+      @game = @quiz.games.create(host: current_user)
+      redirect_to host_game_path(@game), notice: "Wait for users to start the game."
+    else
+      redirect_to @quiz, alert: "Quiz is not playable because some questions have fewer than 2 answers."
+    end
   end
 
   private

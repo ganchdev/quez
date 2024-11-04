@@ -8,10 +8,12 @@
 #  key        :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  host_id    :integer          not null
 #  quiz_id    :integer          not null
 #
 # Indexes
 #
+#  index_games_on_host_id  (host_id)
 #  index_games_on_key      (key)
 #  index_games_on_quiz_id  (quiz_id)
 #
@@ -24,11 +26,11 @@ class GameTest < ActiveSupport::TestCase
     @user = users(:one)
   end
 
-  test "should have a unique 32-character key before validation" do
+  test "should have a unique 12-character key before validation" do
     game = Game.new(quiz: quizzes(:one))
     game.valid?
     assert_not_nil game.key
-    assert_equal 32, game.key.length
+    assert_equal 12, game.key.length
   end
 
   test "should have many players through game_players" do

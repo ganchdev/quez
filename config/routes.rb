@@ -17,8 +17,19 @@ Rails.application.routes.draw do
   end
 
   resources :quizzes do
+    member do
+      post :play
+    end
     resources :questions, except: :index do
       resources :answers, except: [:index, :show]
     end
   end
+
+  resources :games, only: [:show] do
+    member do
+      get :host, path: "host"
+    end
+  end
+
+  get "/:key", to: "games#join", as: :join_game
 end
