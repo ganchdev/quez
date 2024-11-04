@@ -1,0 +1,24 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# == Schema Information
+#
+# Table name: games
+#
+#  id         :integer          not null, primary key
+#  key        :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  quiz_id    :integer          not null
+#
+# Indexes
+#
+#  index_games_on_key      (key)
+#  index_games_on_quiz_id  (quiz_id)
+#
+one:
+  quiz: one
+  key: SbYIR8LQ7drSVY5YT5E9BGdXiteHEiDs
+
+two:
+  quiz: two
+  key: NP3SRtw9D95Y2fDJ8giVFOkW5quG29sN

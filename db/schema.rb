@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2024_10_25_180834) do
+ActiveRecord::Schema[8.1].define(version: 2024_11_04_071906) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -81,6 +81,25 @@ ActiveRecord::Schema[8.1].define(version: 2024_10_25_180834) do
     t.index ["token"], name: "index_authie_sessions_on_token"
     t.index ["token_hash"], name: "index_authie_sessions_on_token_hash"
     t.index ["user_id"], name: "index_authie_sessions_on_user_id"
+  end
+
+  create_table "game_players", force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.integer "user_id", null: false
+    t.integer "points", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_players_on_game_id"
+    t.index ["user_id"], name: "index_game_players_on_user_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer "quiz_id", null: false
+    t.string "key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_games_on_key"
+    t.index ["quiz_id"], name: "index_games_on_quiz_id"
   end
 
   create_table "questions", force: :cascade do |t|
