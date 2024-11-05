@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :games, only: [:show] do
     member do
       get :host, path: "host"
+      delete :quit, path: "quit"
     end
   end
 

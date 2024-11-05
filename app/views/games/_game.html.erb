@@ -1,0 +1,5 @@
+<p>hi from game</p>
+
+<%# Player details %>
+<%= turbo_stream_from @game, :players_status %>
+<%= render "games/components/players_status", game: @game %>
