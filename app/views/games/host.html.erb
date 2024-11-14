@@ -2,6 +2,3 @@
 <p>Game Key: <%= @game.key %></p>
 
 <%= render "game" %>
-
-<%# Quit %>
-<%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>

@@ -96,9 +96,12 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_04_071906) do
   create_table "games", force: :cascade do |t|
     t.integer "quiz_id", null: false
     t.integer "host_id", null: false
+    t.integer "current_question_id"
     t.string "key", null: false
+    t.datetime "ended_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["current_question_id"], name: "index_games_on_current_question_id"
     t.index ["host_id"], name: "index_games_on_host_id"
     t.index ["key"], name: "index_games_on_key"
     t.index ["quiz_id"], name: "index_games_on_quiz_id"

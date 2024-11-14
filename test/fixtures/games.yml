@@ -4,18 +4,21 @@
 #
 # Table name: games
 #
-#  id         :integer          not null, primary key
-#  key        :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  host_id    :integer          not null
-#  quiz_id    :integer          not null
+#  id                  :integer          not null, primary key
+#  ended_at            :datetime
+#  key                 :string           not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  current_question_id :integer
+#  host_id             :integer          not null
+#  quiz_id             :integer          not null
 #
 # Indexes
 #
-#  index_games_on_host_id  (host_id)
-#  index_games_on_key      (key)
-#  index_games_on_quiz_id  (quiz_id)
+#  index_games_on_current_question_id  (current_question_id)
+#  index_games_on_host_id              (host_id)
+#  index_games_on_key                  (key)
+#  index_games_on_quiz_id              (quiz_id)
 #
 one:
   quiz: one

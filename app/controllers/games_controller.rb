@@ -30,6 +30,8 @@ class GamesController < ApplicationController
   def quit
     if host_user?
       # TODO: do stuff to stop the game
+      @game.update(ended_at: Time.current)
+
     else
       player = @game.game_players.find_by(user: current_user)
       player&.destroy!

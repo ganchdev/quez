@@ -1,5 +1,12 @@
 <p>hi from game</p>
 
+<%# Game screen %>
+<%= turbo_stream_from @game, :screen %>
+<%#= render "" %>
+
 <%# Player details %>
 <%= turbo_stream_from @game, :players_status %>
 <%= render "games/components/players_status", game: @game %>
+
+<%# Quit %>
+<%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
