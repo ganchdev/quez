@@ -28,6 +28,8 @@ class Game < ApplicationRecord
   has_many :game_players
   has_many :players, through: :game_players, source: :user
 
+  scope :in_progress, -> { where(ended_at: nil) }
+
   before_create :set_game_key
 
   private

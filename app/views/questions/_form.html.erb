@@ -22,6 +22,11 @@
   </div>
 
   <div>
+    <%= form.label :duration, style: "display: block" %>
+    <%= form.number_field :duration, min: 30 %>
+  </div>
+
+  <div>
     <%= form.label :image, style: "display: block" %>
     <%= form.file_field :image %>
   </div>

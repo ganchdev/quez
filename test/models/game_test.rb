@@ -29,9 +29,9 @@ class GameTest < ActiveSupport::TestCase
     @user = users(:one)
   end
 
-  test "should have a unique 12-character key before validation" do
-    game = Game.new(quiz: quizzes(:one))
-    game.valid?
+  test "should have a unique 12-character key after creation" do
+    game = Game.new(quiz: quizzes(:one), host: @user)
+    game.save!
     assert_not_nil game.key
     assert_equal 12, game.key.length
   end

@@ -5,6 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
+#  duration   :integer          default(120), not null
 #  points     :integer          default(1)
 #  position   :integer
 #  text       :text
@@ -34,6 +35,12 @@ class Question < ApplicationRecord
               only_integer: true,
               greater_than: 0,
               less_than_or_equal_to: 100
+            }
+  validates :duration,
+            numericality: {
+              only_integer: true,
+              greater_than: 30,
+              less_than_or_equal_to: 240
             }
 
   validate :image_size

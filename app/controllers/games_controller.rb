@@ -32,6 +32,8 @@ class GamesController < ApplicationController
       @game.update(ended_at: Time.current)
 
       Turbo::StreamsChannel.broadcast_refresh_to @game
+
+      redirect_to host_game_path(@game)
     else
       player = @game.game_players.find_by(user: current_user)
       player&.destroy!

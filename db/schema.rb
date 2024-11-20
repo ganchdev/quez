@@ -110,6 +110,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_04_071906) do
   create_table "questions", force: :cascade do |t|
     t.integer "quiz_id", null: false
     t.text "text"
+    t.integer "duration", default: 120, null: false
     t.integer "points", default: 1
     t.integer "position"
     t.datetime "created_at", null: false

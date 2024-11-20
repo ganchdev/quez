@@ -5,6 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
+#  duration   :integer          default(120), not null
 #  points     :integer          default(1)
 #  position   :integer
 #  text       :text
@@ -46,6 +47,36 @@ class QuestionTest < ActiveSupport::TestCase
     @question.image.attach(io: File.open("test/fixtures/files/sample_image.png"), filename: "sample_image.png",
                            content_type: "image/png")
     assert @question.image.attached?
+  end
+
+  test "validates points within range" do
+    question = Question.new(text: "Sample Question", quiz: quizzes(:one), duration: 120)
+
+    question.points = 0
+    assert_not question.valid?
+    assert_includes question.errors[:points], "must be greater than 0"
+
+    question.points = 101
+    assert_not question.valid?
+    assert_includes question.errors[:points], "must be less than or equal to 100"
+
+    question.points = 50
+    assert question.valid?
+  end
+
+  test "validates duration within range" do
+    question = Question.new(text: "Sample Question", quiz: quizzes(:one), points: 10)
+
+    question.duration = 29
+    assert_not question.valid?
+    assert_includes question.errors[:duration], "must be greater than 30"
+
+    question.duration = 241
+    assert_not question.valid?
+    assert_includes question.errors[:duration], "must be less than or equal to 240"
+
+    question.duration = 120
+    assert question.valid?
   end
 
   # test "should have more than 2 answers" do
