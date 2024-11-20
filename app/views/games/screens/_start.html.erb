@@ -1,0 +1,8 @@
+Will be playing!
+
+<%# Player details %>
+<%= render "games/components/players_status", game: @game %>
+
+<%# Quit %>
+<%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<%= button_to "Start the game", start_game_path(@game), data: { turbo_method: :post } %>

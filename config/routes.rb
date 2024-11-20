@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     member do
       get :host, path: "host"
       delete :quit, path: "quit"
+      post :start, path: "start"
     end
   end
 

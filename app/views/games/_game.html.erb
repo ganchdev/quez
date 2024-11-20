@@ -1,12 +1,10 @@
-<p>hi from game</p>
+<p>games/_game.html.erb</p>
+<%= turbo_stream_from @game %>
 
-<%# Game screen %>
-<%= turbo_stream_from @game, :screen %>
-<%#= render "" %>
-
-<%# Player details %>
-<%= turbo_stream_from @game, :players_status %>
-<%= render "games/components/players_status", game: @game %>
-
-<%# Quit %>
-<%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<% if @game.ended_at.present? %>
+  <%= render "games/screens/end", game: @game %>
+<% elsif @game.current_question.present? %>
+	<%= render "games/screens/question", game: @game, question: @game.current_question %>
+<% else %>
+	<%= render "games/screens/start", game: @game %>
+<% end %>

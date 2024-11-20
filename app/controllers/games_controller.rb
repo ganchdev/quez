@@ -20,7 +20,7 @@ class GamesController < ApplicationController
     else
       @game.game_players.find_or_create_by(user: current_user)
 
-      broadcast_replace_players_status
+      Turbo::StreamsChannel.broadcast_refresh_to @game
 
       render :join
     end
@@ -29,17 +29,26 @@ class GamesController < ApplicationController
   # DELETE /games/:id/quit
   def quit
     if host_user?
-      # TODO: do stuff to stop the game
       @game.update(ended_at: Time.current)
 
+      Turbo::StreamsChannel.broadcast_refresh_to @game
     else
       player = @game.game_players.find_by(user: current_user)
       player&.destroy!
 
-      broadcast_replace_players_status
+      Turbo::StreamsChannel.broadcast_refresh_to @game
 
       redirect_to root_path
     end
+  end
+
+  # POST /games/:id/start
+  def start
+    return unless host_user?
+
+    @game.update(current_question: @game.quiz.questions.order(:position).first)
+
+    Turbo::StreamsChannel.broadcast_refresh_to @game
   end
 
   private
@@ -52,16 +61,6 @@ class GamesController < ApplicationController
 
   def host_user?
     @game.host == current_user
-  end
-
-  def broadcast_replace_players_status
-    Turbo::StreamsChannel.broadcast_replace_to(
-      @game,
-      :players_status,
-      target: [@game, :players_status],
-      partial: "games/components/players_status",
-      locals: { game: @game }
-    )
   end
 
 end

@@ -28,7 +28,7 @@ class Game < ApplicationRecord
   has_many :game_players
   has_many :players, through: :game_players, source: :user
 
-  before_validation :set_game_key
+  before_create :set_game_key
 
   private
 
