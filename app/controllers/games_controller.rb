@@ -55,6 +55,8 @@ class GamesController < ApplicationController
     @game.next_question!
 
     Turbo::StreamsChannel.broadcast_refresh_to @game
+
+    ShowGameQuestionJob.perform_later @game.current_question
   end
 
   private

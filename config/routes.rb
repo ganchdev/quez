@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       get :host, path: "host"
       delete :quit, path: "quit"
       post :start, path: "start"
+      post :next_question, path: "next_question"
     end
   end
 

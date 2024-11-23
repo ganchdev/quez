@@ -1,1 +1,20 @@
+<%= turbo_stream_from game_question %>
+
+<% case game_question.current_phase %>
+<% when "idle" %>
+idling
+<% when "reading" %>
+<%= render "games/components/timer", game_question: game_question, seconds: 5 %>
+reading
+<% when "answering" %>
+<%= render "games/components/timer", game_question: game_question, seconds: game_question.question.duration %>
+answering
+<% when "completed" %>
+completed
+
+<% if @game.host == current_user %>
+  <%= button_to "Next question", next_question_game_path(@game), data: { turbo_method: :post } %>
+<% end %>
+<% end %>
+
 <%= game_question.question.inspect %>
