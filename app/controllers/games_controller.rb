@@ -46,9 +46,13 @@ class GamesController < ApplicationController
 
   # POST /games/:id/start
   def start
+    next_question
+  end
+
+  def next_question
     return unless host_user?
 
-    @game.update(current_question: @game.quiz.questions.order(:position).first)
+    @game.next_question!
 
     Turbo::StreamsChannel.broadcast_refresh_to @game
   end

@@ -1,0 +1,26 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the "{}" from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+# == Schema Information
+#
+# Table name: game_questions
+#
+#  id            :integer          not null, primary key
+#  current_phase :integer          default(0), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  game_id       :integer          not null
+#  question_id   :integer          not null
+#
+# Indexes
+#
+#  index_game_questions_on_game_id      (game_id)
+#  index_game_questions_on_question_id  (question_id)
+#
+one:
+  game: one
+  question: one 
+  current_phase: idle
