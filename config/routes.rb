@@ -25,15 +25,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :games, only: [:show] do
+  resources :games, only: [] do
     member do
-      get :host, path: "host"
-      delete :quit, path: "quit"
-      post :start, path: "start"
-      get :next_question, path: "next_question"
-      post :player_answer, path: "player_answer", to: "game_player_answers#create"
+      get :host, to: "games#show"
+      delete :quit
+      post :start
+      get :next_question
+      post :player_answer, to: "game_player_answers#create"
     end
   end
 
-  get "/:key", to: "games#join", as: :join_game
+  get "/:key", to: "games#show", as: :join_game
 end

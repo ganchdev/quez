@@ -5,25 +5,20 @@ class GamesController < ApplicationController
   before_action :set_game
 
   # GET /games/:id/host
-  def host
-    if host_user?
-      render :host
-    else
-      redirect_to join_game_path(@game.key)
-    end
-  end
-
   # GET /:key
-  def join
-    if host_user?
-      redirect_to host_game_path(@game)
-    else
+  def show
+    unless host_user?
       @game_player = @game.game_players.find_or_create_by(user: current_user)
 
-      Turbo::StreamsChannel.broadcast_refresh_to @game
-
-      render :join
+      Turbo::StreamsChannel.broadcast_update_to(
+        @game,
+        target: [@game, :players_status],
+        partial: "games/components/players_status",
+        locals: { game: @game }
+      )
     end
+
+    render :show
   end
 
   # DELETE /games/:id/quit
