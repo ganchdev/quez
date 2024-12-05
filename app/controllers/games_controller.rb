@@ -51,7 +51,7 @@ class GamesController < ApplicationController
     return unless host_user?
 
     @game.next_question!
-    ShowGameQuestionJob.perform_later @game.current_question
+    PlayGameQuestionJob.perform_later @game.current_question
 
     head :no_content
   end
