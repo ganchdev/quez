@@ -25,9 +25,9 @@ class Game < ApplicationRecord
   belongs_to :quiz
   belongs_to :host, class_name: "User"
   belongs_to :current_question, class_name: "GameQuestion", optional: true
-  has_many :game_players
+  has_many :game_players, dependent: :destroy
   has_many :players, through: :game_players, source: :user
-  has_many :game_questions
+  has_many :game_questions, dependent: :destroy
 
   scope :in_progress, -> { where(ended_at: nil) }
 
@@ -41,7 +41,11 @@ class Game < ApplicationRecord
       update(current_question: game_questions.order(:id).first)
     else
       next_question = game_questions.where("id > ?", current_question&.id).order(:id).first
-      update(current_question: next_question) if next_question
+      if next_question
+        update(current_question: next_question)
+      else
+        update(ended_at: Time.current)
+      end
     end
   end
 

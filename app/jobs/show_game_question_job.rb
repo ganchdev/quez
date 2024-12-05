@@ -5,6 +5,8 @@ class ShowGameQuestionJob < ApplicationJob
   queue_as :default
 
   def perform(game_question)
+    Turbo::StreamsChannel.broadcast_refresh_to game_question.game
+
     game_question.reading!
     Turbo::StreamsChannel.broadcast_refresh_to game_question
     broadcast_countdown_timer(game_question, 5)

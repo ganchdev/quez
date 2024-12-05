@@ -20,7 +20,12 @@ class GamePlayer < ApplicationRecord
 
   belongs_to :game
   belongs_to :user
+  has_many :player_answers
 
   validates :points, numericality: { greater_than_or_equal_to: 0 }
+
+  def find_answer_for(game_question)
+    player_answers.find_by(game_question: game_question)
+  end
 
 end

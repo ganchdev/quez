@@ -18,7 +18,7 @@ class GamesController < ApplicationController
     if host_user?
       redirect_to host_game_path(@game)
     else
-      @game.game_players.find_or_create_by(user: current_user)
+      @game_player = @game.game_players.find_or_create_by(user: current_user)
 
       Turbo::StreamsChannel.broadcast_refresh_to @game
 
@@ -49,14 +49,14 @@ class GamesController < ApplicationController
     next_question
   end
 
+  # GET /games/:id/next_question
   def next_question
     return unless host_user?
 
     @game.next_question!
-
-    Turbo::StreamsChannel.broadcast_refresh_to @game
-
     ShowGameQuestionJob.perform_later @game.current_question
+
+    head :no_content
   end
 
   private

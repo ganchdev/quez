@@ -5,7 +5,7 @@
 # Table name: game_questions
 #
 #  id            :integer          not null, primary key
-#  current_phase :integer          default(0), not null
+#  current_phase :integer          default("idle"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null

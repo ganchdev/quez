@@ -30,7 +30,8 @@ Rails.application.routes.draw do
       get :host, path: "host"
       delete :quit, path: "quit"
       post :start, path: "start"
-      post :next_question, path: "next_question"
+      get :next_question, path: "next_question"
+      post :player_answer, path: "player_answer", to: "game_player_answers#create"
     end
   end
 

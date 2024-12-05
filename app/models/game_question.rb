@@ -5,7 +5,7 @@
 # Table name: game_questions
 #
 #  id            :integer          not null, primary key
-#  current_phase :integer          default(0), not null
+#  current_phase :integer          default("idle"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null
@@ -22,5 +22,10 @@ class GameQuestion < ApplicationRecord
 
   belongs_to :game
   belongs_to :question
+  has_many :player_answers, dependent: :destroy
+
+  def answers_count
+    player_answers.group(:answer_id).count
+  end
 
 end
