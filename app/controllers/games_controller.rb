@@ -4,6 +4,8 @@ class GamesController < ApplicationController
 
   before_action :set_game
 
+  helper_method :host_user?
+
   # GET /games/:id/host
   # GET /:key
   def show

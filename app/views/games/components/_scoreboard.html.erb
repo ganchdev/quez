@@ -1,0 +1,7 @@
+<%# locals: (game:) -%>
+
+<ol>
+  <% game.game_players.order(:points).each do |player| %>
+    <li><%= player.user.name %> - <%= player.points %></li>
+  <% end %>
+</ol>

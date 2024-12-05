@@ -1,7 +1,1 @@
-games/screens/_end.html.erb
-
-<ol>
-  <% @game.game_players.order(:points).each do |player| %>
-    <li><%= player.user.name %> - <%= player.points %></li>
-  <% end %>
-</ol>
+<%= render "games/components/scoreboard", game: @game %>

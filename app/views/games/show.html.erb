@@ -1,6 +1,8 @@
 <p>Welcome to the game!</p>
 
-<% if @game.host == current_user %>
+<%= @game.quiz.title %>
+
+<% if host_user? %>
   <p>Game Key: <%= @game.key %></p>
 <% end %>
 

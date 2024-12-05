@@ -1,8 +1,10 @@
 <%= turbo_stream_from game_question %>
 
+Question <%= @game.current_question_position %> of <%= @game.game_questions.count %>
+
 <% case game_question.current_phase %>
 <% when "idle" %>
-  idling
+  Probably waiting for the worker to start... 
 <% when "reading" %>
   <%= render "games/components/timer", game_question: game_question, seconds: 5 %>
   reading
@@ -12,41 +14,12 @@
   <%= render "games/components/timer", game_question: game_question, seconds: game_question.question.duration %>
   answering
 
-  <% if @game_player %>
-    <%= form_with url: player_answer_game_path(@game), data: { turbo_method: "post", controller: "answers" } do |f| %>
-      <%= f.hidden_field :game_question_id, value: game_question.id %>
-      <fieldset>
-        <legend><%= game_question.question.text %></legend>
-        <% if player_answer = @game_player.find_answer_for(game_question) %>
-          <% game_question.question.answers.each do |answer| %>
-            <div>
-              <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", checked: answer == player_answer.answer, disabled: true %>
-              <%= f.label "answer_#{answer.id}", answer.text %>
-            </div>
-          <% end %>
-        <% else %>
-          <% game_question.question.answers.each do |answer| %>
-            <div>
-              <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", data: { action: "answers#submit", answers_target: "choice" } %>
-              <%= f.label "answer_#{answer.id}", answer.text %>
-            </div>
-          <% end %>
-        <% end %>
-      </fieldset>
-    <% end %>
-  <% end %>
-
+  <%= render "games/components/answers", game: @game, game_question: game_question, game_player: @game_player %>
 <% when "completed" %>
   completed
 
   <hr>
-
-  <ol>
-    <% @game.game_players.order(:points).each do |player| %>
-      <li><%= player.user.name %> - <%= player.points %></li>
-    <% end %>
-  </ol>
-
+  <%= render "games/components/scoreboard", game: @game %>
   <hr>
 
   <% answers_count = game_question.answers_count %>
@@ -56,20 +29,9 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= game_question.question.text %></legend>
-    <% game_question.question.answers.each do |answer| %>
-      <div>
-        <% if answer.correct %>
-          <%= label_tag "answer_#{answer.id}", answer.text %>
-        <% else %>
-          <s><%= answer.text %></s>
-        <% end %>
-      </div>
-    <% end %>
-  </fieldset>
+  <%= render "games/components/answers", game: @game, game_question: game_question, game_player: @game_player %>
 
-  <% if @game.host == current_user %>
-    <%= button_to "Next question", next_question_game_path(@game), method: :get %>
+  <% if host_user? %>
+    <%= button_to @game.current_question_position == @game.game_questions.count ? "Scoreboard" : "Next question", next_question_game_path(@game), method: :get %>
   <% end %>
 <% end %>

@@ -34,6 +34,12 @@ class Game < ApplicationRecord
   before_create :set_game_key
   after_create :create_game_questions
 
+  def current_question_position
+    return nil unless current_question
+
+    game_questions.order(:id).pluck(:id).index(current_question.id) + 1
+  end
+
   def next_question!
     return unless game_questions.any?
 

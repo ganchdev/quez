@@ -1,0 +1,38 @@
+<%# locals: (game:, game_question:, game_player:) -%>
+
+<% if host_user? || game_question.completed? %>
+  <fieldset>
+    <legend><%= game_question.question.text %></legend>
+    <% game_question.question.answers.each do |answer| %>
+      <div>
+        <% if answer.correct %>
+          <%= label_tag "answer_#{answer.id}", answer.text %>
+        <% else %>
+          <s><%= answer.text %></s>
+        <% end %>
+      </div>
+    <% end %>
+  </fieldset>
+<% else %>
+  <%= form_with url: player_answer_game_path(game), data: { turbo_method: "post", controller: "answers" } do |f| %>
+    <%= f.hidden_field :game_question_id, value: game_question.id %>
+    <fieldset>
+      <legend><%= game_question.question.text %></legend>
+      <% if player_answer = game_player.find_answer_for(game_question) %>
+        <% game_question.question.answers.each do |answer| %>
+          <div>
+            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", checked: answer == player_answer.answer, disabled: true %>
+            <%= f.label "answer_#{answer.id}", answer.text %>
+          </div>
+        <% end %>
+      <% else %>
+        <% game_question.question.answers.each do |answer| %>
+          <div>
+            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", data: { action: "answers#submit", answers_target: "choice" } %>
+            <%= f.label "answer_#{answer.id}", answer.text %>
+          </div>
+        <% end %>
+      <% end %>
+    </fieldset>
+  <% end %>
+<% end %>

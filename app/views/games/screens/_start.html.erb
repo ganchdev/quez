@@ -1,9 +1,6 @@
-games/screens/_start.html.erb
-
-<%# Player details %>
 <%= render "games/components/players_status", game: @game %>
 
 <%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-<% if @game.host == current_user %>
+<% if host_user? %>
   <%= button_to "Start the game", start_game_path(@game), data: { turbo_method: :post } %>
 <% end %>
