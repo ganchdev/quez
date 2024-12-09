@@ -56,7 +56,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.expect(question: [:text, :image, :points])
+    params.expect(question: [:text, :image, :points, :duration])
   end
 
 end

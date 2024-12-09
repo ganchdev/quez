@@ -37,7 +37,7 @@ class Game < ApplicationRecord
   def current_question_position
     return nil unless current_question
 
-    game_questions.order(:id).pluck(:id).index(current_question.id) + 1
+    @current_question_position ||= game_questions.order(:id).pluck(:id).index(current_question.id) + 1
   end
 
   def next_question!

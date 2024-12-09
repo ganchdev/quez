@@ -16,7 +16,7 @@
 </div>
 
 <div>
-  <%= link_to "<- Back to Quizzes", quizzes_path %> |
+  <%= link_to "← Back to Quizzes", quizzes_path %> |
   <%= link_to "Edit this quiz", edit_quiz_path(@quiz) %> |
   <%= link_to "New question", new_quiz_question_path(@quiz) %>
 
@@ -27,5 +27,5 @@
   <% else %>
     <%= button_to "Play", play_quiz_path(@quiz), data: { turbo_method: :post } %>
   <% end %>
-  <%= button_to "Destroy this quiz", @quiz, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <%= button_to "🗑️ Destroy this quiz", @quiz, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
 </div>

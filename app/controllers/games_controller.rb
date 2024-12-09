@@ -49,6 +49,7 @@ class GamesController < ApplicationController
   # GET /games/:id/next_question
   def next_question
     return unless host_user?
+    return if @game.current_question&.idle?
 
     @game.next_question!
     PlayGameQuestionJob.perform_later @game.current_question
