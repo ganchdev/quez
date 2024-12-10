@@ -4,10 +4,10 @@
   </ul>
   <ul>
     <li>
-      <%= link_to 'Home', root_path %>
+      <%= link_to 'Quizzes', quizzes_path, class: "contrast" %>
     </li>
     <li>
-      <%= link_to logout_path, method: :delete, data: { turbo: false } do %>
+      <%= link_to logout_path, method: :delete, class: "contrast", data: { turbo: false } do %>
         Logout
       <% end %>
     </li>

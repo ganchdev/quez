@@ -8,3 +8,32 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.page {
+  margin-top: 3rem;
+
+  & article {
+    .article-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .article-empty {
+      text-align: center;
+    }
+  }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-header-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}

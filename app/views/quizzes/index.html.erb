@@ -1,16 +1,24 @@
 <% content_for :title, "Quizzes" %>
 
-<h1>Quizzes</h1>
-
-<div id="quizzes">
-  <% @quizzes.each do |quiz| %>
-    <div style="border: 0.5px solid gray; padding: 5px;">
-      <%= render quiz %>
-      <p>
-        <%= link_to "Show this quiz", quiz %>
-      </p>
-    </div>
-  <% end %>
+<div class="page-header">
+  <h1>Quizzes</h1>
+  <div class="page-header-controls">
+    <%= button_to "<b>+</b> New".html_safe, new_quiz_path, method: :get %>
+  </div>
 </div>
 
-<%= link_to "New quiz", new_quiz_path %>
+<article id="quizzes">
+  <ul class="resource-list">
+    <% @quizzes.each do |quiz| %>
+      <li id="<%= dom_id(quiz) %>">
+        <div class="left">
+          <%= link_to quiz.title, quiz_path(quiz) %>
+          <br>
+          <small><b>Questions:</b> <%= quiz.questions.count %></small>
+        </div>
+      </li>
+      <hr>
+    <% end %>
+  </ul>
+  <%= button_to "<b>+</b> New quiz".html_safe, new_quiz_path, method: :get, class: "primary outline" %>
+</article>

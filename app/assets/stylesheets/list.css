@@ -1,0 +1,19 @@
+.resource-list {
+  padding-left: 0;
+
+  & li {
+    padding: 1rem;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+      margin-top: auto; 
+      margin-bottom: auto;
+
+      & p {
+        margin-top: 1rem;
+      }
+    }
+  }
+}

@@ -1,11 +1,5 @@
-<% content_for :title, "Editing quiz" %>
+<% content_for :title, "Edit quiz | #{@quiz.title}" %>
 
-<h1>Editing quiz</h1>
+<h1>Edit quiz</h1>
 
 <%= render "form", quiz: @quiz %>
-
-<br>
-
-<div>
-  <%= link_to "<- Back", "javascript:history.back()" %>
-</div>

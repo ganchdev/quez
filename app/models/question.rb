@@ -29,6 +29,8 @@ class Question < ApplicationRecord
 
   has_one_attached :image
 
+  scope :positioned, -> { order(:position) }
+
   validates :text, presence: true
   validates :points,
             numericality: {

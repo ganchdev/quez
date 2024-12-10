@@ -1,31 +1,46 @@
-<h1 style="color: white">Quizzes#Show</h1>
+<% content_for :title, "Quiz | #{@quiz.title}" %>
 
-<%= render @quiz %>
+<div class="page-header">
+  <h1><%= truncate @quiz.title, length: 50 %></h1>
+  <div class="page-header-controls">
+    <% if @quiz.games.in_progress.any? %>
+      <% @quiz.games.in_progress.each do |game| %>
+        <%= link_to "▶ Continue game", host_game_path(game) %>
+      <% end %>
+    <% else %>
+      <%= button_to "▶ Play".html_safe, play_quiz_path(@quiz), data: { turbo_method: :post } %>
+    <% end %>
+    <%= button_to "Edit", edit_quiz_path(@quiz), class: "secondary outline", method: :get %>
+    <%= button_to "Delete", @quiz, method: :delete, class: "secondary outline", data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+</div>
 
-<h3>Questions</h3>
-
-<div id="questions">
-  <% @quiz.questions.each do |question| %>
-    <div style="border: 0.5px solid gray; padding: 5px;">
-      <%= render question %>
-      <p>
-        <%= link_to "Show this question", quiz_question_path(@quiz, question) %>
-      </p>
+<article>
+  <% if @quiz.questions.any? %>
+    <ul class="resource-list">
+      <% @quiz.questions.positioned.each do |question| %>
+        <li id="<%= dom_id(question) %>">
+          <div class="left">
+            <%= question.position %>.
+            <%= link_to question.text, quiz_question_path(@quiz, question) %>
+            <br>
+            <small class="ml-1"><b>Answers:</b> <%= question.answers.count %></small>
+          </div>
+          <div>
+            <div role="group">
+              <%= link_to "<b>↑</b>".html_safe, new_quiz_question_path(@quiz), role: "button", class: "primary outline" %>
+              <%= link_to "<b>↓</b>".html_safe, new_quiz_question_path(@quiz), role: "button", class: "primary outline" %>
+            </div>
+          </div>
+        </li>
+        <hr>
+      <% end %>
+    </ul>
+    <%= button_to "<b>+</b> Add question".html_safe, new_quiz_question_path(@quiz), method: :get, class: "primary outline" %>
+  <% else %>
+    <div class="article-empty">
+      <p>No questions found.</p>
+      <%= button_to "<b>+</b> Add question".html_safe, new_quiz_question_path(@quiz), method: :get, class: "primary outline" %>
     </div>
   <% end %>
-</div>
-
-<div>
-  <%= link_to "← Back to Quizzes", quizzes_path %> |
-  <%= link_to "Edit this quiz", edit_quiz_path(@quiz) %> |
-  <%= link_to "New question", new_quiz_question_path(@quiz) %>
-
-  <% if @quiz.games.in_progress.any? %>
-    <% @quiz.games.in_progress.each do |game| %>
-      <%= link_to "Continue game", host_game_path(game) %>
-    <% end %>
-  <% else %>
-    <%= button_to "Play", play_quiz_path(@quiz), data: { turbo_method: :post } %>
-  <% end %>
-  <%= button_to "🗑️ Destroy this quiz", @quiz, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-</div>
+</article>
