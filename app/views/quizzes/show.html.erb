@@ -5,12 +5,12 @@
   <div class="page-header-controls">
     <% if @quiz.games.in_progress.any? %>
       <% @quiz.games.in_progress.each do |game| %>
-        <%= link_to "▶ Continue game", host_game_path(game) %>
+        <%= button_to "▶ Continue game", host_game_path(game), method: :get %>
       <% end %>
     <% else %>
       <%= button_to "▶ Play".html_safe, play_quiz_path(@quiz), data: { turbo_method: :post } %>
     <% end %>
-    <%= button_to "Edit", edit_quiz_path(@quiz), class: "secondary outline", method: :get %>
+    <%= button_to "Edit", edit_quiz_path(@quiz), class: "contrast outline", method: :get %>
     <%= button_to "Delete", @quiz, method: :delete, class: "secondary outline", data: { turbo_confirm: "Are you sure?" } %>
   </div>
 </div>
@@ -29,8 +29,8 @@
           <div>
             <%= form_with url: position_quiz_question_path(@quiz, question), data: { turbo_method: :post } do %>
               <div role="group">
-                <%= button_tag "<b>↑</b>".html_safe, name: "direction", value: "up", class: "primary outline" %>
-                <%= button_tag "<b>↓</b>".html_safe, name: "direction", value: "down", class: "primary outline" %>
+                <%= button_tag "<b>↑</b>".html_safe, name: "direction", value: "up", class: "primary outline", data: { tooltip: "Move up" } %>
+                <%= button_tag "<b>↓</b>".html_safe, name: "direction", value: "down", class: "primary outline", data: { tooltip: "Move down" } %>
               </div>
             <% end %>
           </div>

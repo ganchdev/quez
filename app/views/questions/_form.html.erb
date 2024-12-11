@@ -1,17 +1,19 @@
 <%= form_with(model: [@quiz, question]) do |form| %>
   <%= form_errors question %>
 
-  <%= form.label :text, style: "display: block" %>
-  <%= form.textarea :text %>
+  <fieldset>
+    <%= form.label :text %>
+    <%= form.textarea :text, required: true %>
 
-  <%= form.label :points, style: "display: block" %>
-  <%= form.number_field :points, min: 0 %>
+    <%= form.label :points %>
+    <%= form.number_field :points, min: 0 %>
 
-  <%= form.label :duration, style: "display: block" %>
-  <%= form.number_field :duration, min: 30 %>
+    <%= form.label :duration %>
+    <%= form.number_field :duration, min: 30 %>
 
-  <%= form.label :image, style: "display: block" %>
-  <%= form.file_field :image %>
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </fieldset>
 
   <div class="form-controls-container">
     <%= back_button %>

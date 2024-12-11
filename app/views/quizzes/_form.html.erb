@@ -1,8 +1,10 @@
 <%= form_with(model: quiz) do |form| %>
   <%= form_errors quiz %>
 
-  <%= form.label :title, style: "display: block" %>
-  <%= form.text_field :title, required: true %>
+  <fieldset>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title, required: true %>
+  </fieldset>
 
   <div class="form-controls-container">
     <%= back_button %>

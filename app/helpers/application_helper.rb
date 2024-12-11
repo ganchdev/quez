@@ -26,4 +26,8 @@ module ApplicationHelper
     end
   end
 
+  def bool_emoji(boolean)
+    boolean ? "✅" : "❌"
+  end
+
 end

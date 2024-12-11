@@ -1,27 +1,18 @@
 <%= form_with(model: [@quiz, @question, answer]) do |form| %>
-  <% if answer.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(answer.errors.count, "error") %> prohibited this answer from being saved:</h2>
+  <%= form_errors answer %>
 
-      <ul>
-        <% answer.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <fieldset>
+    <%= form.label :text %>
+    <%= form.text_field :text, required: true %>
 
-  <div>
-    <%= form.label :text, style: "display: block" %>
-    <%= form.text_field :text %>
-  </div>
+    <label>
+      <%= form.checkbox :correct %>
+      Correct
+    </label>
+  </fieldset>
 
-  <div>
-    <%= form.label :correct, style: "display: block" %>
-    <%= form.checkbox :correct %>
-  </div>
-
-  <div>
+  <div class="form-controls-container">
+    <%= back_button %>
     <%= form.submit %>
   </div>
 <% end %>

@@ -16,6 +16,11 @@
           <br>
           <small><b>Questions:</b> <%= quiz.questions.count %></small>
         </div>
+        <% if quiz.games.in_progress.any? %>
+          <% quiz.games.in_progress.each do |game| %>
+            <%= button_to "▶ Continue game", host_game_path(game), method: :get %>
+          <% end %>
+        <% end %>
       </li>
       <hr>
     <% end %>

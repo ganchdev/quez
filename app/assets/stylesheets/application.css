@@ -34,6 +34,21 @@
   gap: 0.5rem;
 }
 
+.page-middle {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+
+  .page-middle-image {
+    margin-top: 1rem;
+  }
+}
+
+.delete-button {
+  color: #C52F21 !important;
+  border: 0 !important;
+}
+
 .ml-1 {
   margin-left: 1rem;
 }
