@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     end
     resources :questions, except: :index do
       resources :answers, except: [:index, :show]
+       member do
+        post :position
+      end
     end
   end
 
