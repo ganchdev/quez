@@ -1,0 +1,72 @@
+.answers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.answer-choice {
+  position: relative;
+
+  & input[type="radio"]{
+    visibility:hidden;
+  }
+}
+
+.answer-label {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0;
+  text-align: center;
+  border: 1px solid var(--pico-primary-hover-background);
+  border-radius: var(--pico-border-radius, 2rem);
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  gap: 1rem;
+
+  .answered {
+    cursor: initial;
+  }
+}
+
+.answer-label span:first-child {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.answer-label.selected {
+    background-color: var(--pico-primary-hover-background);
+}
+
+@keyframes blink {
+  0% {
+    background-color: #00A66E;
+  }
+  50% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: #00A66E;
+  }
+}
+
+.answer-label-correct {
+  animation-iteration-count: 1;
+  animation: blink 1s linear forwards;
+  background-color: #00A66E;
+  border-color: #00A66E;
+}
+
+.hidden-radio {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hidden-radio:checked + .answer-label {
+  background-color: var(--pico-primary-hover-background);
+  font-weight: bold;
+}

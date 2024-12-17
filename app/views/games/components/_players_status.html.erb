@@ -1,5 +1,17 @@
 <%# locals: (game:) -%>
 
-<div id="<%= dom_id(game, :players_status) %>">
-  <%= game.players.inspect %>
-</div>
+<article id="<%= dom_id(game, :players_status) %>">
+  <% if game.players.any? %>
+    <ul class="players-list">
+      <% game.players.each do |player| %>
+        <li>
+          <%= image_tag player.image, alt: "#{player.first_name} #{player.last_name}'s avatar", width: 70, class: "players-list-avatar" %>
+          <br>
+          <small><%= truncate player.name, length: 9 %></small>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Waiting for players to join...</p>
+  <% end %>
+</article>

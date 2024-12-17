@@ -6,13 +6,15 @@ class GamesController < ApplicationController
 
   helper_method :host_user?
 
+  layout "game"
+
   # GET /games/:id/host
   # GET /:key
   def show
     unless host_user?
       @game_player = @game.game_players.find_or_create_by(user: current_user)
 
-      Turbo::StreamsChannel.broadcast_update_to(
+      Turbo::StreamsChannel.broadcast_replace_to(
         @game,
         target: [@game, :players_status],
         partial: "games/components/players_status",

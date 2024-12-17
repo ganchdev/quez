@@ -1,38 +1,51 @@
 <%# locals: (game:, game_question:, game_player:) -%>
 
+<%
+  def render_answers_label(name, text, index, classes = "answer-label", correct: false, selected: false)
+    label_tag name, class: "#{classes} #{'answered' if correct || selected} #{'answer-label-correct' if correct} #{'selected' if selected}" do
+      concat(content_tag(:span, answer_letter(index))) 
+      concat(content_tag(:span, text))
+    end
+  end
+%>
+
 <% if host_user? || game_question.completed? %>
-  <fieldset>
-    <legend><%= game_question.question.text %></legend>
-    <% game_question.question.answers.each do |answer| %>
-      <div>
+  <div class="answers-grid">
+    <% game_question.question.answers.each_with_index do |answer, index| %>
+      <div class="answer-choice">
         <% if answer.correct %>
-          <%= label_tag "answer_#{answer.id}", answer.text %>
+          <%= render_answers_label("answer_#{answer.id}", answer.text, index, correct: true) %>
         <% else %>
-          <s><%= answer.text %></s>
+          <% player_answer = game_player&.find_answer_for(game_question) %>
+          <%= render_answers_label(
+                "answer_#{answer.id}",
+                answer.text,
+                index,
+                selected: answer == player_answer&.answer
+              ) %>
         <% end %>
       </div>
     <% end %>
-  </fieldset>
+  </div>
 <% else %>
   <%= form_with url: player_answer_game_path(game), data: { turbo_method: "post", controller: "answers" } do |f| %>
     <%= f.hidden_field :game_question_id, value: game_question.id %>
-    <fieldset>
-      <legend><%= game_question.question.text %></legend>
+    <div class="answers-grid">
       <% if player_answer = game_player.find_answer_for(game_question) %>
-        <% game_question.question.answers.each do |answer| %>
-          <div>
-            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", checked: answer == player_answer.answer, disabled: true %>
-            <%= f.label "answer_#{answer.id}", answer.text %>
+        <% game_question.question.answers.each_with_index do |answer, index| %>
+          <div class="answer-choice">
+            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", checked: answer == player_answer.answer, disabled: true, class: "hidden-radio" %>
+            <%= render_answers_label("answer_#{answer.id}", answer.text, index) %>
           </div>
         <% end %>
       <% else %>
-        <% game_question.question.answers.each do |answer| %>
-          <div>
-            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", data: { action: "answers#submit", answers_target: "choice" } %>
-            <%= f.label "answer_#{answer.id}", answer.text %>
+        <% game_question.question.answers.each_with_index do |answer, index| %>
+          <div class="answer-choice">
+            <%= f.radio_button :selected_answer_id, answer.id, id: "answer_#{answer.id}", data: { action: "answers#submit", answers_target: "choice" }, class: "hidden-radio" %>
+            <%= render_answers_label("answer_#{answer.id}", answer.text, index) %>
           </div>
         <% end %>
       <% end %>
-    </fieldset>
+    </div>
   <% end %>
 <% end %>

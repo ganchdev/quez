@@ -1,9 +1,9 @@
-<p>Welcome to the game!</p>
+<%= turbo_stream_from @game %>
 
-<%= @game.quiz.title %>
-
-<% if host_user? %>
-  <p>Game Key: <%= @game.key %></p>
+<% if @game.ended_at.present? %>
+  <%= render "games/screens/end", game: @game %>
+<% elsif @game.current_question.present? %>
+  <%= render "games/screens/question", game: @game, game_question: @game.current_question %>
+<% else %>
+  <%= render "games/screens/start", game: @game %>
 <% end %>
-
-<%= render "game" %>

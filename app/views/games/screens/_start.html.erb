@@ -1,6 +1,27 @@
-<%= render "games/components/players_status", game: @game %>
+<div class="w-100">
+  <div class="page-middle">
+    <h1><%= @game.quiz.title %></h1>
+    <% if host_user? %>
+      <hr>
+      <h4>
+        Invite players by sending them a 
+        <%= link_to root_url + @game.key, data: { controller: "clipboard", action: "click->clipboard#copy", tooltip: "copy" } do %>
+          <span>link to the game</span>
+          <%= image_tag "copy.svg", width: 20, alt: "Copy link" %>
+        <% end %>
+      </h4>
+      <hr>
+    <% end %>
+  </div>
 
-<%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-<% if host_user? %>
-  <%= button_to "Start the game", start_game_path(@game), data: { turbo_method: :post } %>
-<% end %>
+  <%= render "games/components/players_status", game: @game %>
+
+  <% if host_user? %>
+    <div class="form-controls-container">
+      <%= link_to "Quit this game", quit_game_path(@game), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "secondary", role: "button" %>
+      <%= link_to "Start the game", start_game_path(@game), data: { turbo_method: :post }, role: "button" %>
+    </div>
+  <% else %>
+    <%= button_to "Quit this game", quit_game_path(@game), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "secondary" %>
+  <% end %>
+</div>

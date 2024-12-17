@@ -3,7 +3,11 @@
   gap: 1rem;
 }
 
-.form-controls-container button.secondary {
+.form-controls-container button {
+  width: 100%;
+}
+
+.form-controls-container a {
   width: 100%;
 }
 

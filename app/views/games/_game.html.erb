@@ -1,9 +1,0 @@
-<%= turbo_stream_from @game %>
-
-<% if @game.ended_at.present? %>
-  <%= render "games/screens/end", game: @game %>
-<% elsif @game.current_question.present? %>
-  <%= render "games/screens/question", game: @game, game_question: @game.current_question %>
-<% else %>
-  <%= render "games/screens/start", game: @game %>
-<% end %>
