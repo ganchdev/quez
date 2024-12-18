@@ -7,21 +7,17 @@
         Question <b><%= @game.current_question_position %></b> of <b><%= @game.game_questions.count %></b>
       </small>
       <% if game_question.answering? %>
-        <h3 class="m-0">
+        <h3 class="questions-header-center m-0">
           <%= render "games/components/timer", game_question: game_question, seconds: game_question.question.duration %>
         </h3>
       <% end %>
-      <div class="questions-header-actions" data-turbo-prefetch="false">
-        <% if host_user? && game_question.completed? %>
-          <%= link_to @game.current_question_position == @game.game_questions.count ? "Scoreboard" : "Next", next_question_game_path(@game), data: { turbo_method: :get } %>
-        <% end %>
-        <%= link_to "Quit", quit_game_path(@game), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "secondary" %>
-      </div>
+      <%= render "games/components/questions_header_actions", game_question: game_question, host_user: host_user?, scoreboard: true %>
     </div>
   <% end %>
 
   <% case game_question.current_phase %>
   <% when "idle" %>
+
     <div class="questions-reading">
       <article>
         <h1>Waiting for the worker to start...</h1>
@@ -48,7 +44,7 @@
           <%= image_tag game_question.question.image.representation(resize_to_limit: [740, 740]), alt: "Question Image" %>
         </figure>
       <% end %>
-      <div class="" style="<%= game_question.question.image.representable? ? 'margin-top: 1rem' : 'margin-top: 20vh' %>;">
+      <div style="<%= game_question.question.image.representable? ? 'margin-top: 1rem' : 'margin-top: 20vh' %>;">
         <article>
           <header>
             <h5><%= game_question.question.text %></h5>
@@ -62,21 +58,8 @@
 
     <div class="questions-completed">
       <div class="questions-completed-results">
-        <ul class="chart">
-          <% answers_count = game_question.answers_count %>
-          <% game_question.question.answers.each_with_index do |answer, index| %>
-            <li class="chart-item">
-              <span><b><%= answer_letter(index) %></b></span>
-              <span><%= answers_count[answer.id] || 0 %></span>
-            </li>
-          <% end %>
-        </ul>
+        <%= render "games/components/results", game: @game, game_question: game_question %>
       </div>
-      <% if false %>
-        <div class="questions-completed-scoreboard">
-          <%= render "games/components/scoreboard", game: @game %>
-        </div>
-      <% end %>
     </div>
 
     <%= render "games/components/answers", game: @game, game_question: game_question, game_player: @game_player %>

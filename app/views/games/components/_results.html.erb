@@ -1,0 +1,11 @@
+<%# locals: (game:, game_question:) -%>
+
+<ul id="<%= dom_id(game, :results) %>" class="chart">
+  <% answers_count = game_question.answers_count %>
+  <% game_question.question.answers.each_with_index do |answer, index| %>
+    <li class="chart-item">
+      <span><b><%= answer_letter(index) %></b></span>
+      <span><%= answers_count[answer.id] || 0 %></span>
+    </li>
+  <% end %>
+</ul>

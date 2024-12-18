@@ -59,6 +59,30 @@ class GamesController < ApplicationController
     head :no_content
   end
 
+  def load_scoreboard
+    Turbo::StreamsChannel.broadcast_remove_to(@game, target: [@game, :answers])
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      @game,
+      target: [@game, :questions_header_actions],
+      partial: "games/components/questions_header_actions",
+      locals: {
+        game_question: @game.current_question,
+        host_user: host_user?,
+        scoreboard: false
+      }
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      @game,
+      target: [@game, :results],
+      partial: "games/components/scoreboard",
+      locals: { game: @game }
+    )
+
+    head :no_content
+  end
+
   private
 
   def set_game
