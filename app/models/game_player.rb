@@ -22,6 +22,8 @@ class GamePlayer < ApplicationRecord
   belongs_to :user
   has_many :player_answers
 
+  scope :by_points, -> { order(points: :desc) }
+
   validates :points, numericality: { greater_than_or_equal_to: 0 }
 
   def find_answer_for(game_question)

@@ -1,15 +1,20 @@
 <%# locals: (game:) -%>
 
 <div id="<%= dom_id(game, :scoreboard) %>" class="scoreboard-container">
-  <ol class="scoreboard">
-    <% game.game_players.order(points: :desc).each do |player| %>
-      <li>
-        <div class="scoreboard-player-info">
-          <%= image_tag player.user.image, alt: player.user.name, width: 40, class: "scoreboard-players-avatar" %>
-          <span class="scoreboard-player-name"><%= player.user.name %></span>
-        </div>
-        <span class="scoreboard-player-points"><%= player.points %> pts</span>
-      </li>
-    <% end %>
-  </ol>
+  <% players = game.game_players.by_points %>
+  <% if players.any? %>
+    <ol class="scoreboard">
+      <% players.each do |player| %>
+        <li>
+          <div class="scoreboard-player-info">
+            <%= image_tag player.user.image, alt: player.user.name, width: 40, class: "scoreboard-players-avatar" %>
+            <span class="scoreboard-player-name"><%= player.user.name %></span>
+          </div>
+          <span class="scoreboard-player-points"><%= player.points %> pts</span>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <article>It seems quiet today...</article>
+  <% end %>
 </div>

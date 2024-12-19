@@ -8,7 +8,7 @@
   <% game_question.question.answers.each_with_index do |answer, index| %>
     <%
       players_answered = answers_count[answer.id].to_f
-      percentage = ((players_answered / answerers) * 100).round
+      percentage = ((players_answered / answerers) * 100).round rescue 0
       percentage = percentage + 5 if (percentage > 10 && percentage < 15)
       percentage = 15 if (percentage > 0 && percentage < 15)
       percentage = 10 if percentage.zero?
