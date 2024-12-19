@@ -59,6 +59,7 @@ class GamesController < ApplicationController
     head :no_content
   end
 
+  # GET /games/:id/load_scoreboard
   def load_scoreboard
     Turbo::StreamsChannel.broadcast_remove_to(@game, target: [@game, :answers])
 

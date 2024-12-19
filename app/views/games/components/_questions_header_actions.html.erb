@@ -9,7 +9,7 @@
     <% if scoreboard %>
       <%= link_to "Next →", load_scoreboard_game_path(game), data: { turbo_method: :get } %>
     <% else %>
-      <%= link_to game.current_question_position == game.game_questions.count ? "To results" : "Next →", next_question_game_path(game), data: { turbo_method: :get } %>
+      <%= link_to game.current_question_position == game.game_questions.count ? "To scoreboard" : "Next →", next_question_game_path(game), data: { turbo_method: :get } %>
     <% end %>
   <% end %>
   <%= link_to "Quit", quit_game_path(game), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "secondary" %>
