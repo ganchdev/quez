@@ -29,3 +29,9 @@ two:
   quiz: two
   host: two
   key: NP3SRtw9D95Y2fDJ8giVFOkW5quG29sN
+
+ended_game:
+  quiz: three
+  host: one
+  key: 3ZK5EtQqOxIT
+  ended_at: "2024-12-19 00:43:09.863682000 UTC +00:00"

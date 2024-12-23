@@ -21,7 +21,24 @@
 require "test_helper"
 
 class PlayerAnswerTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @player_answer = player_answers(:one)
+  end
+
+  # Associations
+  test "should belong to an answer" do
+    assert_respond_to @player_answer, :answer
+    assert_not_nil @player_answer.answer
+  end
+
+  test "should belong to a game_player" do
+    assert_respond_to @player_answer, :game_player
+    assert_not_nil @player_answer.game_player
+  end
+
+  test "should belong to an game_question" do
+    assert_respond_to @player_answer, :game_question
+    assert_not_nil @player_answer.game_question
+  end
+
 end

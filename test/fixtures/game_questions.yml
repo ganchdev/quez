@@ -24,3 +24,20 @@ one:
   game: one
   question: one 
   current_phase: idle
+
+two:
+  game: one
+  question: two 
+  current_phase: idle
+
+id_1:
+  id: 1
+  game: one
+  question: one 
+  current_phase: idle
+
+id_2:
+  id: 2
+  game: one
+  question: two 
+  current_phase: idle
