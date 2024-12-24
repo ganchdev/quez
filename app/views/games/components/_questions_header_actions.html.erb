@@ -1,0 +1,16 @@
+<%# locals: (game_question:, host_user:, scoreboard:) -%>
+
+<% 
+  game = game_question&.game
+%>
+
+<div id="<%= dom_id(game, :questions_header_actions) if host_user %>" class="questions-header-actions" data-turbo-prefetch="false">
+  <% if host_user && game_question.completed? %>
+    <% if scoreboard %>
+      <%= link_to "Next →", load_scoreboard_game_path(game), data: { turbo_method: :get } %>
+    <% else %>
+      <%= link_to game.current_question_position == game.game_questions.count ? "To scoreboard" : "Next →", next_question_game_path(game), data: { turbo_method: :get } %>
+    <% end %>
+  <% end %>
+  <%= link_to "Quit", quit_game_path(game), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "secondary" %>
+</div>

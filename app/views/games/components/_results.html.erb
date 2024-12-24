@@ -1,0 +1,21 @@
+<%# locals: (game:, game_question:) -%>
+
+<ul id="<%= dom_id(game, :results) %>" class="results-list">
+  <%
+    answers_count = game_question.answers_count
+    answerers = answers_count.values.sum.to_f
+  %>
+  <% game_question.question.answers.each_with_index do |answer, index| %>
+    <%
+      players_answered = answers_count[answer.id].to_f
+      percentage = ((players_answered / answerers) * 100).round rescue 0
+      percentage = percentage + 5 if (percentage > 10 && percentage < 15)
+      percentage = 15 if (percentage > 0 && percentage < 15)
+      percentage = 10 if percentage.zero?
+    %>
+    <li class="results-list-item <%= 'green' if answer.correct %>" style="width: <%= percentage %>%">
+      <span><b><%= answer_letter(index) %></b></span>
+      <span><%= answers_count[answer.id] || 0 %></span>
+    </li>
+  <% end %>
+</ul>

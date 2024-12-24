@@ -3,7 +3,7 @@
 class QuestionsController < ApplicationController
 
   before_action :set_quiz
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :position]
 
   # GET /quizzes/1/questions/1
   def show
@@ -45,6 +45,12 @@ class QuestionsController < ApplicationController
     redirect_to quiz_path(@quiz), notice: "Question was successfully destroyed.", status: :see_other
   end
 
+  # POST /quizzes/1/questions/1/position
+  def position
+    @question.move_record!(@quiz, params.expect(:direction))
+    redirect_to request.referer
+  end
+
   private
 
   def set_quiz
@@ -56,7 +62,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.expect(question: [:text, :image, :points])
+    params.expect(question: [:text, :image, :points, :duration])
   end
 
 end

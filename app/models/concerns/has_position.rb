@@ -34,6 +34,24 @@ module HasPosition
     end
   end
 
+  def move_record!(relation, direction)
+    ids = relation.send(self.class.table_name).positioned.ids
+    current_index = ids.index(id)
+    target_index = nil
+
+    case direction.to_sym
+    when :up
+      target_index = current_index - 1
+    when :down
+      target_index = current_index + 1
+    end
+
+    return if target_index.negative? || target_index >= ids.size
+
+    ids[current_index], ids[target_index] = ids[target_index], ids[current_index]
+    self.class.reorder_positions(ids)
+  end
+
   private
 
   def set_to_last_position

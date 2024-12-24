@@ -6,13 +6,15 @@ class GamesController < ApplicationController
 
   helper_method :host_user?
 
+  layout "game"
+
   # GET /games/:id/host
   # GET /:key
   def show
     unless host_user?
       @game_player = @game.game_players.find_or_create_by(user: current_user)
 
-      Turbo::StreamsChannel.broadcast_update_to(
+      Turbo::StreamsChannel.broadcast_replace_to(
         @game,
         target: [@game, :players_status],
         partial: "games/components/players_status",
@@ -49,9 +51,35 @@ class GamesController < ApplicationController
   # GET /games/:id/next_question
   def next_question
     return unless host_user?
+    return if @game.current_question&.idle?
 
     @game.next_question!
     PlayGameQuestionJob.perform_later @game.current_question
+
+    head :no_content
+  end
+
+  # GET /games/:id/load_scoreboard
+  def load_scoreboard
+    Turbo::StreamsChannel.broadcast_remove_to(@game, target: [@game, :answers])
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      @game,
+      target: [@game, :questions_header_actions],
+      partial: "games/components/questions_header_actions",
+      locals: {
+        game_question: @game.current_question,
+        host_user: host_user?,
+        scoreboard: false
+      }
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      @game,
+      target: [@game, :results],
+      partial: "games/components/scoreboard",
+      locals: { game: @game }
+    )
 
     head :no_content
   end

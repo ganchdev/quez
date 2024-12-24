@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def redirect_if_logged_in
     return unless logged_in?
 
-    redirect_to portfolios_path, alert: "Can't access this page while logged in"
+    redirect_to root_path, alert: "Can't access this page while logged in"
   end
 
   def auth_session_error

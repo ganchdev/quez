@@ -22,8 +22,14 @@
 #  index_player_answers_on_game_player_id    (game_player_id)
 #  index_player_answers_on_game_question_id  (game_question_id)
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  answer: one
+  game_player: one
+  game_question: one
+  correct: true
+
+two:
+  answer: two
+  game_player: two
+  game_question: two
+  correct: false

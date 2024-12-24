@@ -10,11 +10,12 @@
   <body>
     <%= render "layouts/flash" %>
 
-    <main class="container">
-      <%= render "layouts/nav" %>
-      <div class="page">
-        <%= yield %>
-      </div>
+    <%= yield :top %>
+
+    <main class="container-fluid questions">
+      <%= yield %>
     </main>
+
+    <%= yield :bottom %>
   </body>
 </html>

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     end
     resources :questions, except: :index do
       resources :answers, except: [:index, :show]
+      member do
+        post :position
+      end
     end
   end
 
@@ -31,6 +34,7 @@ Rails.application.routes.draw do
       delete :quit
       post :start
       get :next_question
+      get :load_scoreboard
       post :player_answer, to: "game_player_answers#create"
     end
   end

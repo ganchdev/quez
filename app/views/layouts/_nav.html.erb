@@ -1,8 +1,15 @@
-<!-- <span><%#= image_tag current_user.image, alt: "Profile Image", width: 50 %></span> -->
-<span><%= link_to 'Home', root_path %></span>
-<span>
-  <%= link_to logout_path, method: :delete do %>
-    Logout
-  <% end %>
-</span>
-<hr>
+<nav>
+  <ul>
+    <li><strong><%= app_name %></strong></li>
+  </ul>
+  <ul>
+    <li>
+      <%= link_to 'Quizzes', quizzes_path, class: "contrast" %>
+    </li>
+    <li>
+      <%= link_to logout_path, method: :delete, class: "contrast", data: { turbo: false } do %>
+        Logout
+      <% end %>
+    </li>
+  </ul>
+</nav>

@@ -1,25 +1,49 @@
-<h1 style="color: green">Questions#Show</h1>
+<% content_for :title, "Quiz | #{@question.text}" %>
 
-<%= render @question %>
+<div class="page-header">
+  <%= button_to "← Back", quiz_path(@quiz), method: :get, class: "secondary"  %>
+  <div class="page-header-controls">
+    <%= button_to "Edit", edit_quiz_question_path(@quiz, @question), class: "contrast outline", method: :get %>
+    <%= button_to "Delete", quiz_question_path(@quiz, @question), method: :delete, class: "secondary outline", data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+</div>
 
-<h3>Answers</h3>
+<div class="page-middle">
+  <h1><%= @question.text %></h1>
+  <div>
+    <small><%= @question.points %> points, </small>
+    <small><%= @question.duration %> seconds</small>
+  </div>
+  <div class="page-middle-image">
+    <% if @question.image.representable? %>
+      <%= image_tag @question.image.representation(resize_to_limit: [500, 500]), alt: "Question Image" %>
+    <% end %>
+  </div>
+</div>
 
-<div id="answers">
-  <% @answers.each do |answer| %>
-    <div style="border: 0.5px solid gray; padding: 5px;">
-      <%= render answer %>
-      <p>
-        <%= button_to "Destroy this answer", quiz_question_answer_path(@quiz, @question, answer), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-        <%= link_to "Edit this answer", edit_quiz_question_answer_path(@quiz, @question, answer) %>
-      </p>
+<article>
+  <% if @answers.any? %>
+    <ul class="resource-list">
+      <% @answers.each do |answer| %>
+        <li id="<%= dom_id(answer) %>">
+          <div class="left">
+            <%= answer.text %>
+            <br>
+            <small><b>Correct: </b> <%= bool_emoji answer.correct %></small>
+          </div>
+          <div>
+            <%= link_to "Edit", edit_quiz_question_answer_path(@quiz, @question, answer), class: "contrast outline", role: "button" %>
+            <%= link_to "✕", quiz_question_answer_path(@quiz, @question, answer), data: { tooltip: "Delete", turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "secondary outline delete-button", role: "button" %>
+          </div>
+        </li>
+        <hr>
+      <% end %>
+    </ul>
+    <%= button_to "<b>+</b> Add answer".html_safe, new_quiz_question_answer_path(@quiz, @question), method: :get, class: "primary outline" %>
+  <% else %>
+    <div class="article-empty">
+      <p>No answers found.</p>
+      <%= button_to "<b>+</b> Add answer".html_safe, new_quiz_question_answer_path(@quiz, @question), method: :get, class: "primary outline" %>
     </div>
   <% end %>
-</div>
-
-<div>
-  <%= link_to "<- Back to quiz", quiz_path(@quiz) %> |
-  <%= link_to "Edit this question", edit_quiz_question_path(@quiz, @question) %> |
-  <%= link_to "New answer", new_quiz_question_answer_path(@quiz, @question) %>
-
-  <%= button_to "Destroy this question", quiz_question_path(@quiz, @question), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-</div>
+</article>

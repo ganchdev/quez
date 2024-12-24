@@ -16,7 +16,8 @@ class AuthController < ApplicationController
     begin
       user = find_or_create_user(auth_data)
       create_auth_session(user)
-      redirect_to root_path, notice: "Signed in successfully."
+      flash[:hello] = "👋" 
+      redirect_to root_path
     rescue ActiveRecord::RecordInvalid
       redirect_to auth_path, alert: "There was an error signing in. Please try again."
     rescue StandardError => e
