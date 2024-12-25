@@ -38,7 +38,7 @@ class GamePlayerAnswersController < ApplicationController
   end
 
   def set_answer
-    @answer = @game_question&.question&.answers&.find(params.expect(:selected_answer_id))
+    @answer = @game_question.question&.answers&.find(params.expect(:selected_answer_id))
   end
 
   def set_game_player

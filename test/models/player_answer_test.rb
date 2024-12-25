@@ -21,6 +21,7 @@
 require "test_helper"
 
 class PlayerAnswerTest < ActiveSupport::TestCase
+
   def setup
     @player_answer = player_answers(:one)
   end

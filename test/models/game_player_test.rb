@@ -73,4 +73,5 @@ class GamePlayerTest < ActiveSupport::TestCase
     game_question = game_questions(:two)
     assert_nil @game_player.find_answer_for(game_question)
   end
+
 end

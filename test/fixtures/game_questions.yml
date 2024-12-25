@@ -30,13 +30,13 @@ two:
   question: two 
   current_phase: idle
 
-id_1:
+first_in_one:
   id: 1
   game: one
   question: one 
   current_phase: idle
 
-id_2:
+second_in_one:
   id: 2
   game: one
   question: two 

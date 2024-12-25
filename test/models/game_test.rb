@@ -91,7 +91,7 @@ class GameTest < ActiveSupport::TestCase
 
   # Methods
   test "current_question_position should return correct position" do
-    @game.update(current_question: game_questions(:id_1))
+    @game.update(current_question: game_questions(:first_in_one))
     position = @game.current_question_position
     assert_equal 1, position
   end
@@ -102,8 +102,8 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "next_question! should update current_question to the next question" do
-    first_question = game_questions(:id_1)
-    second_question = game_questions(:id_2)
+    first_question = game_questions(:first_in_one)
+    second_question = game_questions(:second_in_one)
 
     @game.update(current_question: first_question)
 
@@ -119,7 +119,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "next_question! should set the first question if current_question is nil" do
-    first_question = game_questions(:id_1)
+    first_question = game_questions(:first_in_one)
     @game.update(current_question: nil)
 
     @game.next_question!

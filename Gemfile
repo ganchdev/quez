@@ -45,6 +45,7 @@ group :development, :test do
   gem "brakeman", require: false
   gem "debug", platforms: [:mri, :windows], require: "debug/prelude"
   gem "pry-remote"
+  gem "rubocop", require: false
 end
 
 group :development do

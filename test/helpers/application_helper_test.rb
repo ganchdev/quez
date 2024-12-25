@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
 
@@ -27,7 +27,7 @@ class ApplicationHelperTest < ActionView::TestCase
     # It should generate something like:
     # <button type="button" class="secondary" onclick="javascript:history.back()">← Back</button>
 
-    assert_match %r{<button}, result
+    assert_match(/<button/, result)
     assert_includes result, 'type="button"'
     assert_includes result, 'class="secondary"'
     assert_includes result, 'onclick="javascript:history.back()'
@@ -35,11 +35,10 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test "back_button can be customized with text, class, and additional attributes" do
-    result = back_button(text: "Go Back", css_class: "custom-class", additional_options: { id: "my-button-id", data: { role: "test" } })
-    # Example output:
-    # <button type="button" class="custom-class" id="my-button-id" data-role="test" onclick="javascript:history.back()">Go Back</button>
+    result = back_button(text: "Go Back", css_class: "custom-class",
+                         additional_options: { id: "my-button-id", data: { role: "test" } })
 
-    assert_match %r{<button}, result
+    assert_match(/<button/, result)
     assert_includes result, 'class="custom-class"'
     assert_includes result, 'id="my-button-id"'
     assert_includes result, 'data-role="test"'
@@ -66,7 +65,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, %(<div class="form-errors">)
     assert_includes result, %(<ul>)
     assert_includes result, %(<li>Something went wrong</li>)
-    
+
     # If your actual error is "Name can't be blank":
     assert_includes result, %(<li>Name can&#39;t be blank</li>)
 
