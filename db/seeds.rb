@@ -38,6 +38,7 @@ questions = quizzes.map do |quiz|
       quiz: quiz,
       text: "Question #{i + 1} for #{quiz.title}",
       points: rand(1..10),
+      duration: 31,
       position: i + 1
     )
   end
