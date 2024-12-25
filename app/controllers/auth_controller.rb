@@ -4,20 +4,19 @@ class AuthController < ApplicationController
 
   layout "auth"
 
-  skip_before_action :login_required, only: [:new, :callback]
-  before_action :redirect_if_logged_in, only: [:new, :callback]
+  allow_unauthenticated_access only: [:new, :callback]
+  rate_limit to: 10, within: 3.minutes, only: :new, with: :redirect_on_rate_limit
 
-  def new
-  end
+  before_action :redirect_if_authenticated, only: [:new, :callback]
 
   def callback
     auth_data = provider_auth_data(request.env["omniauth.auth"]["info"])
 
     begin
       user = find_or_create_user(auth_data)
-      create_auth_session(user)
-      flash[:hello] = "👋" 
-      redirect_to root_path
+      start_new_session_for(user)
+      flash[:hello] = "👋"
+      redirect_to after_authentication_url
     rescue ActiveRecord::RecordInvalid
       redirect_to auth_path, alert: "There was an error signing in. Please try again."
     rescue StandardError => e
@@ -28,12 +27,22 @@ class AuthController < ApplicationController
   end
 
   def destroy
-    auth_session.invalidate! if auth_session.is_a?(Authie::Session)
+    terminate_session
 
     redirect_to auth_path, notice: "You have been logged out successfully."
   end
 
   private
+
+  def redirect_if_authenticated
+    return unless authenticated?
+
+    redirect_to root_path, alert: "Can't access this page while logged in"
+  end
+
+  def redirect_on_rate_limit
+    redirect_to auth_path, alert: "Try again later."
+  end
 
   def find_or_create_user(auth_data)
     user = User.find_or_initialize_by(email: auth_data[:email]) do |u|

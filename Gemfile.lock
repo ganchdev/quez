@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/ganchdev/authie.git
-  revision: 84c9fc2a148c4e4528484d3afb1eafc9c6e759b4
-  branch: main
-  specs:
-    authie (4.2.0)
-      activerecord (>= 6.1, <= 8.1)
-
-GIT
   remote: https://github.com/rails/rails.git
   revision: 6dda150b5e4cd25c6af76b99fe9a5c5986691e05
   branch: main
@@ -414,7 +406,6 @@ PLATFORMS
 
 DEPENDENCIES
   annotaterb
-  authie!
   bootsnap
   brakeman
   capybara

@@ -50,39 +50,6 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
-  create_table "authie_sessions", force: :cascade do |t|
-    t.string "token"
-    t.string "browser_id"
-    t.bigint "user_id"
-    t.boolean "active", default: true
-    t.text "data"
-    t.datetime "expires_at", precision: nil
-    t.datetime "login_at", precision: nil
-    t.string "login_ip"
-    t.datetime "last_activity_at", precision: nil
-    t.string "last_activity_ip"
-    t.string "last_activity_path"
-    t.string "user_agent"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "user_type"
-    t.bigint "parent_id"
-    t.datetime "two_factored_at", precision: nil
-    t.string "two_factored_ip"
-    t.integer "requests", default: 0
-    t.datetime "password_seen_at", precision: nil
-    t.string "token_hash"
-    t.string "host"
-    t.boolean "skip_two_factor", default: false
-    t.string "login_ip_country"
-    t.string "two_factored_ip_country"
-    t.string "last_activity_ip_country"
-    t.index ["browser_id"], name: "index_authie_sessions_on_browser_id"
-    t.index ["token"], name: "index_authie_sessions_on_token"
-    t.index ["token_hash"], name: "index_authie_sessions_on_token_hash"
-    t.index ["user_id"], name: "index_authie_sessions_on_user_id"
-  end
-
   create_table "game_players", force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "user_id", null: false
@@ -148,6 +115,15 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -161,4 +137,5 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "sessions", "users"
 end
