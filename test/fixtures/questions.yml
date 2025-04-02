@@ -25,10 +25,15 @@ one:
 
 two:
   quiz: two
-  text: Question Two 
+  text: Question Two
   points: 20
 
 three:
   quiz: one
   text: Question Three
   points: 30
+
+four:
+  quiz: two
+  text: Question Four
+  points: 40

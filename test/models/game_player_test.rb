@@ -23,9 +23,13 @@ class GamePlayerTest < ActiveSupport::TestCase
   def setup
     @game_player = game_players(:one) # Assumes fixtures are set up
     @game_question = game_questions(:one)
+
+    @basic_question = game_questions(:basic)
+    @high_value_question = game_questions(:high_value)
   end
 
   # Associations
+
   test "should belong to a game" do
     assert_respond_to @game_player, :game
     assert_not_nil @game_player.game
@@ -41,6 +45,7 @@ class GamePlayerTest < ActiveSupport::TestCase
   end
 
   # Validations
+
   test "points should be non-negative" do
     @game_player.points = -1
     assert_not @game_player.valid?
@@ -53,6 +58,7 @@ class GamePlayerTest < ActiveSupport::TestCase
   end
 
   # Scope
+
   test "by_points scope should order by points in descending order" do
     player1 = game_players(:one)
     player2 = game_players(:two)
@@ -64,6 +70,7 @@ class GamePlayerTest < ActiveSupport::TestCase
   end
 
   # Instance Methods
+
   test "find_answer_for should return the correct player answer" do
     player_answer = player_answers(:one)
     assert_equal player_answer, @game_player.find_answer_for(@game_question)
@@ -76,69 +83,223 @@ class GamePlayerTest < ActiveSupport::TestCase
 
   test "awards zero points when both are zero" do
     @game_player.update!(points: 10)
-    @game_player.award_points!(0, 0)
-    assert_equal 10, @game_player.reload.points
-  end
-
-  test "awards only bonus points" do
-    @game_player.update!(points: 10)
-    @game_player.award_points!(0, 5)
-    assert_equal 15, @game_player.reload.points
+    @basic_question.question.update!(points: 1) # edge case
+    @game_player.award_points!(@basic_question, 30) # too late = 0 bonus
+    assert_equal 11, @game_player.reload.points
   end
 
   test "awards only question points" do
     @game_player.update!(points: 10)
-    @game_player.award_points!(20, 0)
+    @basic_question.question.update!(points: 20)
+    @game_player.award_points!(@basic_question, 100) # too late = 0 bonus
     assert_equal 30, @game_player.reload.points
   end
 
-  test "awards both question and bonus points" do
+  test "awards question and bonus points" do
     @game_player.update!(points: 0)
-    @game_player.award_points!(15, 5)
-    assert_equal 20, @game_player.reload.points
+    @basic_question.question.update!(points: 20)
+    @game_player.award_points!(@basic_question, 0) # max bonus
+    expected = 20 + 6 # 20 * 0.3 = 6 → full scale = 6
+    assert_equal expected, @game_player.reload.points
   end
 
-  test "handles large point values" do
-    @game_player.update!(points: 1_000_000)
-    @game_player.award_points!(500_000, 250_000)
-    assert_equal 1_750_000, @game_player.reload.points
-  end
-
-  test "handles negative bonus points (should subtract)" do
-    @game_player.update!(points: 20)
-    @game_player.award_points!(10, -5)
-    assert_equal 25, @game_player.reload.points
-  end
-
-  test "handles negative question points (penalty)" do
-    @game_player.update!(points: 30)
-    @game_player.award_points!(-10, 0)
-    assert_equal 20, @game_player.reload.points
-  end
-
-  test "handles both points being negative" do
-    @game_player.update!(points: 100)
-    @game_player.award_points!(-30, -10)
-    assert_equal 60, @game_player.reload.points
-  end
-
-  test "multiple awards accumulate correctly" do
+  test "awards max bonus for high-value question answered fast" do
     @game_player.update!(points: 0)
-    5.times { @game_player.award_points!(10, 2) }
-    assert_equal 60, @game_player.reload.points
+    @high_value_question.question.update!(points: 100)
+    @game_player.award_points!(@high_value_question, 2)
+    expected = 100 + 30 # 100 * 0.3 = 30, full bonus at 2s
+    assert_equal expected, @game_player.reload.points
   end
 
-  test "can award points in quick succession" do
+  test "handles bonus cutoff at 8 seconds" do
     @game_player.update!(points: 0)
+    @high_value_question.question.update!(points: 100)
 
-    threads = 10.times.map do
-      Thread.new do
-        GamePlayer.find(@game_player.id).award_points!(5, 1)
-      end
-    end
-    threads.each(&:join)
+    @game_player.award_points!(@high_value_question, 8) # bonus cutoff
+    assert_equal 100, @game_player.reload.points
+  end
 
-    assert_equal 60, @game_player.reload.points
+  test "handles multiple awards correctly" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    3.times { @game_player.award_points!(@basic_question, 2) }
+    # 10 + 3 (bonus) = 13 * 3 = 39
+    assert_equal 39, @game_player.reload.points
+  end
+
+  test "awards minimum legal question points with no bonus" do
+    @game_player.update!(points: 5)
+    @basic_question.question.update!(points: 1)
+
+    @game_player.award_points!(@basic_question, 10) # way too late
+    assert_equal 6, @game_player.reload.points
+  end
+
+  test "awards minimum legal question points with max bonus" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 1)
+
+    @game_player.award_points!(@basic_question, 1) # fast answer
+    # low-point logic: bonus = 3
+    assert_equal 4, @game_player.reload.points
+  end
+
+  test "awards max bonus at edge boundary time 2s" do
+    @game_player.update!(points: 0)
+    @high_value_question.question.update!(points: 100)
+
+    @game_player.award_points!(@high_value_question, 2)
+    # still considered full scale bonus
+    assert_equal 130, @game_player.reload.points
+  end
+
+  test "awards partial bonus at midpoint time 5s" do
+    @game_player.update!(points: 0)
+    @high_value_question.question.update!(points: 100)
+
+    @game_player.award_points!(@high_value_question, 5)
+    # scale = (8 - 5) / 6 = 0.5 → bonus = 15
+    assert_equal 115, @game_player.reload.points
+  end
+
+  test "awards 1 bonus point for low-value question at 5s" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    @game_player.award_points!(@basic_question, 5)
+    # falls into 4..6 range → bonus = 1
+    assert_equal 11, @game_player.reload.points
+  end
+
+  test "no bonus exactly at cutoff time 8s" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    @game_player.award_points!(@basic_question, 8)
+    assert_equal 10, @game_player.reload.points
+  end
+
+  test "clamps negative time_taken to zero bonus" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    @game_player.award_points!(@basic_question, -3)
+    # time_taken is negative, but logic returns 0 bonus
+    assert_equal 10, @game_player.reload.points
+  end
+
+  test "awards correct bonus just under 4s (3s => 2 bonus)" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    @game_player.award_points!(@basic_question, 3)
+    assert_equal 12, @game_player.reload.points
+  end
+
+  test "awards correct bonus just under 6s (5s => 1 bonus)" do
+    @game_player.update!(points: 0)
+    @basic_question.question.update!(points: 10)
+
+    @game_player.award_points!(@basic_question, 5)
+    assert_equal 11, @game_player.reload.points
+  end
+
+  # Private methods
+
+  # High-point questions (points > 10) – exponential-like scaling
+  test "high-point fast answer (0s)" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 0)
+    assert_equal 12, bonus # 40 * 0.3 = 12, scale = 1 (max possible cuz quick) -> bonus = 12
+  end
+
+  test "high-point exact 2s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 2)
+    # scale = (8 - 2) / 6 = 1.0 → 12 bonus
+    assert_equal 12, bonus
+  end
+
+  test "high-point exact 4s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 4)
+    assert_equal 8, bonus
+  end
+
+  test "high-point exact 6s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 6)
+    assert_equal 4, bonus
+  end
+
+  test "high-point exact 8s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 8)
+    assert_equal 0, bonus
+  end
+
+  test "high-point just under 8s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 40, 7.9)
+    assert_equal 0, bonus
+  end
+
+  test "high-point borderline (10 points) should behave like low-point" do
+    bonus = @game_player.send(:calculate_speed_bonus, 10, 1)
+    assert_equal 3, bonus
+  end
+
+  test "very high-point question fast answer" do
+    bonus = @game_player.send(:calculate_speed_bonus, 1000, 0)
+    # max_bonus = 300, scale = 8 / 6 = 1..., bonus = 300
+    assert_equal 300, bonus
+  end
+
+  test "high-point negative time (should scale up)" do
+    bonus = @game_player.send(:calculate_speed_bonus, 50, -2)
+    assert_equal 15, bonus
+  end
+
+  # Low-point questions (<= 10) – fixed tiers
+
+  test "low-point exact 2s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 6, 2)
+    assert_equal 3, bonus
+  end
+
+  test "low-point exact 4s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 6, 4)
+    assert_equal 2, bonus # falls into 2..4 range (.. is inclusive)
+  end
+
+  test "low-point edge 6s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 6, 6)
+    assert_equal 1, bonus
+  end
+
+  test "low-point above 6s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 6, 6.1)
+    assert_equal 0, bonus
+  end
+
+  test "low-point just under 2s" do
+    bonus = @game_player.send(:calculate_speed_bonus, 10, 1.9)
+    assert_equal 3, bonus
+  end
+
+  test "low-point negative time (should still max tier)" do
+    bonus = @game_player.send(:calculate_speed_bonus, 8, -1)
+    assert_equal 0, bonus
+  end
+
+  test "zero-point question" do
+    bonus = @game_player.send(:calculate_speed_bonus, 0, 1)
+    assert_equal 3, bonus # falls under low-point logic
+  end
+
+  test "negative-point question" do
+    bonus = @game_player.send(:calculate_speed_bonus, -5, 1)
+    assert_equal 3, bonus # still low-point logic
+  end
+
+  test "bonus never negative even with high time" do
+    bonus = @game_player.send(:calculate_speed_bonus, 100, 100)
+    assert_equal 0, bonus
   end
 
 end

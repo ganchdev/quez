@@ -17,12 +17,11 @@ class GamePlayerAnswersController < ApplicationController
     )
 
     time_at_answer = Time.current
-    time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_a).round : 0
-    bonus_points = calculate_speed_bonus(@game_question.question.points, time_taken)
+    time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_at).round : 0
 
     if player_answer.save
       if @answer.correct
-        @game_player.award_points!(@game_question.question.points + bonus_points)
+        @game_player.award_points!(@game_question.question, time_taken)
       end
 
       render json: { message: "Answer submitted successfully" }, status: :ok
@@ -32,23 +31,6 @@ class GamePlayerAnswersController < ApplicationController
   end
 
   private
-
-  def calculate_speed_bonus(question_points, time_taken)
-    return 0 if time_taken > 8
-
-    if question_points > 10
-      max_bonus = (question_points * 0.3).round
-      scale = [(8 - time_taken) / 6.0, 1.0].min
-      (scale * max_bonus).round
-    else
-      case time_taken
-      when 0..2 then 3
-      when 2..4 then 2
-      when 4..6 then 1
-      else 0
-      end
-    end
-  end
 
   def set_game
     @game = Game.find(params[:id])
