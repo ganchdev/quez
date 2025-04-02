@@ -6,6 +6,7 @@
 #
 #  id            :integer          not null, primary key
 #  current_phase :integer          default("idle"), not null
+#  started_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null
@@ -67,6 +68,35 @@ class GameQuestionTest < ActiveSupport::TestCase
 
     assert counts.is_a?(Hash)
     assert_equal 1, counts[player_answer.answer_id]
+  end
+
+  test "sets started_at when changing to answering and it's nil" do
+    assert_nil @game_question.started_at
+
+    @game_question.current_phase = "answering"
+    freeze_time do
+      now = Time.current
+      @game_question.save!
+
+      assert_equal now, @game_question.started_at
+    end
+  end
+
+  test "does not set started_at if already set" do
+    @game_question.update!(started_at: 2.minutes.ago, current_phase: "reading")
+
+    @game_question.current_phase = "answering"
+    @game_question.save!
+
+    # Should not overwrite started_at
+    assert_in_delta 2.minutes.ago.to_i, @game_question.started_at.to_i, 1
+  end
+
+  test "does not set started_at if phase is not changing to answering" do
+    @game_question.current_phase = "reading" # not transitioning to 'answering'
+    @game_question.save!
+
+    assert_nil @game_question.started_at
   end
 
 end

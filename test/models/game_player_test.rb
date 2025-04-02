@@ -74,4 +74,71 @@ class GamePlayerTest < ActiveSupport::TestCase
     assert_nil @game_player.find_answer_for(game_question)
   end
 
+  test "awards zero points when both are zero" do
+    @game_player.update!(points: 10)
+    @game_player.award_points!(0, 0)
+    assert_equal 10, @game_player.reload.points
+  end
+
+  test "awards only bonus points" do
+    @game_player.update!(points: 10)
+    @game_player.award_points!(0, 5)
+    assert_equal 15, @game_player.reload.points
+  end
+
+  test "awards only question points" do
+    @game_player.update!(points: 10)
+    @game_player.award_points!(20, 0)
+    assert_equal 30, @game_player.reload.points
+  end
+
+  test "awards both question and bonus points" do
+    @game_player.update!(points: 0)
+    @game_player.award_points!(15, 5)
+    assert_equal 20, @game_player.reload.points
+  end
+
+  test "handles large point values" do
+    @game_player.update!(points: 1_000_000)
+    @game_player.award_points!(500_000, 250_000)
+    assert_equal 1_750_000, @game_player.reload.points
+  end
+
+  test "handles negative bonus points (should subtract)" do
+    @game_player.update!(points: 20)
+    @game_player.award_points!(10, -5)
+    assert_equal 25, @game_player.reload.points
+  end
+
+  test "handles negative question points (penalty)" do
+    @game_player.update!(points: 30)
+    @game_player.award_points!(-10, 0)
+    assert_equal 20, @game_player.reload.points
+  end
+
+  test "handles both points being negative" do
+    @game_player.update!(points: 100)
+    @game_player.award_points!(-30, -10)
+    assert_equal 60, @game_player.reload.points
+  end
+
+  test "multiple awards accumulate correctly" do
+    @game_player.update!(points: 0)
+    5.times { @game_player.award_points!(10, 2) }
+    assert_equal 60, @game_player.reload.points
+  end
+
+  test "can award points in quick succession" do
+    @game_player.update!(points: 0)
+
+    threads = 10.times.map do
+      Thread.new do
+        GamePlayer.find(@game_player.id).award_points!(5, 1)
+      end
+    end
+    threads.each(&:join)
+
+    assert_equal 60, @game_player.reload.points
+  end
+
 end

@@ -10,6 +10,7 @@
 #
 #  id            :integer          not null, primary key
 #  current_phase :integer          default("idle"), not null
+#  started_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null

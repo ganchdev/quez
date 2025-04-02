@@ -6,6 +6,7 @@
 #
 #  id            :integer          not null, primary key
 #  current_phase :integer          default("idle"), not null
+#  started_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null
@@ -24,8 +25,18 @@ class GameQuestion < ApplicationRecord
   belongs_to :question
   has_many :player_answers, dependent: :destroy
 
+  before_save :set_started_at_if_answering
+
   def answers_count
     player_answers.group(:answer_id).count
+  end
+
+  private
+
+  def set_started_at_if_answering
+    return unless current_phase_changed? && answering? && started_at.nil?
+
+    self.started_at = Time.current
   end
 
 end

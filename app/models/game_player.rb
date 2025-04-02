@@ -30,4 +30,8 @@ class GamePlayer < ApplicationRecord
     player_answers.find_by(game_question: game_question)
   end
 
+  def award_points!(question_points, bonus_points)
+    increment!(:points, question_points + bonus_points)
+  end
+
 end
