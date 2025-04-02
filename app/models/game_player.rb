@@ -40,9 +40,9 @@ class GamePlayer < ApplicationRecord
   # @return [GamePlayer]
   def award_points!(game_question, time_taken)
     question_points = game_question.question.points
-    bonus_points = calculate_speed_bonus(question_points, time_taken)
+    speed_bonus = calculate_speed_bonus(question_points, time_taken)
 
-    increment!(:points, question_points + bonus_points)
+    increment!(:points, question_points + speed_bonus)
   end
 
   private
