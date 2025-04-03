@@ -4,12 +4,13 @@
 #
 # Table name: game_players
 #
-#  id         :integer          not null, primary key
-#  points     :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  game_id    :integer          not null
-#  user_id    :integer          not null
+#  id             :integer          not null, primary key
+#  current_streak :integer
+#  points         :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  game_id        :integer          not null
+#  user_id        :integer          not null
 #
 # Indexes
 #
@@ -23,9 +24,6 @@ class GamePlayerTest < ActiveSupport::TestCase
   def setup
     @game_player = game_players(:one) # Assumes fixtures are set up
     @game_question = game_questions(:one)
-
-    @basic_question = game_questions(:basic)
-    @high_value_question = game_questions(:high_value)
   end
 
   # Associations
@@ -69,8 +67,8 @@ class GamePlayerTest < ActiveSupport::TestCase
     assert_equal [player2, player1], result
   end
 
-  # Instance Methods
-
+  ############ Instance Methods
+  # find_answer_for
   test "find_answer_for should return the correct player answer" do
     player_answer = player_answers(:one)
     assert_equal player_answer, @game_player.find_answer_for(@game_question)
@@ -81,131 +79,108 @@ class GamePlayerTest < ActiveSupport::TestCase
     assert_nil @game_player.find_answer_for(game_question)
   end
 
+  # award_points
   test "awards zero points when both are zero" do
     @game_player.update!(points: 10)
-    @basic_question.question.update!(points: 1) # edge case
-    @game_player.award_points!(@basic_question, 30) # too late = 0 bonus
+    @game_player.award_points!(1, 30) # too late = 0 bonus
     assert_equal 11, @game_player.reload.points
   end
 
   test "awards only question points" do
     @game_player.update!(points: 10)
-    @basic_question.question.update!(points: 20)
-    @game_player.award_points!(@basic_question, 100) # too late = 0 bonus
+    @game_player.award_points!(20, 100) # too late = 0 bonus
     assert_equal 30, @game_player.reload.points
   end
 
   test "awards question and bonus points" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 20)
-    @game_player.award_points!(@basic_question, 0) # max bonus
+    @game_player.award_points!(20, 0) # max bonus
     expected = 20 + 6 # 20 * 0.3 = 6 → full scale = 6
     assert_equal expected, @game_player.reload.points
   end
 
   test "awards max bonus for high-value question answered fast" do
     @game_player.update!(points: 0)
-    @high_value_question.question.update!(points: 100)
-    @game_player.award_points!(@high_value_question, 2)
+    @game_player.award_points!(100, 2)
     expected = 100 + 30 # 100 * 0.3 = 30, full bonus at 2s
     assert_equal expected, @game_player.reload.points
   end
 
   test "handles bonus cutoff at 8 seconds" do
     @game_player.update!(points: 0)
-    @high_value_question.question.update!(points: 100)
-
-    @game_player.award_points!(@high_value_question, 8) # bonus cutoff
+    @game_player.award_points!(100, 8) # bonus cutoff
     assert_equal 100, @game_player.reload.points
   end
 
   test "handles multiple awards correctly" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    3.times { @game_player.award_points!(@basic_question, 2) }
+    3.times { @game_player.award_points!(10, 2) }
     # 10 + 3 (bonus) = 13 * 3 = 39
     assert_equal 39, @game_player.reload.points
   end
 
   test "awards minimum legal question points with no bonus" do
     @game_player.update!(points: 5)
-    @basic_question.question.update!(points: 1)
-
-    @game_player.award_points!(@basic_question, 10) # way too late
+    @game_player.award_points!(1, 10) # way too late
     assert_equal 6, @game_player.reload.points
   end
 
   test "awards minimum legal question points with max bonus" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 1)
-
-    @game_player.award_points!(@basic_question, 1) # fast answer
+    @game_player.award_points!(1, 1) # fast answer
     # low-point logic: bonus = 3
     assert_equal 4, @game_player.reload.points
   end
 
   test "awards max bonus at edge boundary time 2s" do
     @game_player.update!(points: 0)
-    @high_value_question.question.update!(points: 100)
-
-    @game_player.award_points!(@high_value_question, 2)
+    @game_player.award_points!(100, 2)
     # still considered full scale bonus
     assert_equal 130, @game_player.reload.points
   end
 
   test "awards partial bonus at midpoint time 5s" do
     @game_player.update!(points: 0)
-    @high_value_question.question.update!(points: 100)
-
-    @game_player.award_points!(@high_value_question, 5)
+    @game_player.award_points!(100, 5)
     # scale = (8 - 5) / 6 = 0.5 → bonus = 15
     assert_equal 115, @game_player.reload.points
   end
 
   test "awards 1 bonus point for low-value question at 5s" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    @game_player.award_points!(@basic_question, 5)
+    @game_player.award_points!(10, 5)
     # falls into 4..6 range → bonus = 1
     assert_equal 11, @game_player.reload.points
   end
 
   test "no bonus exactly at cutoff time 8s" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    @game_player.award_points!(@basic_question, 8)
+    @game_player.award_points!(10, 8)
     assert_equal 10, @game_player.reload.points
   end
 
   test "clamps negative time_taken to zero bonus" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    @game_player.award_points!(@basic_question, -3)
+    @game_player.award_points!(10, -3)
     # time_taken is negative, but logic returns 0 bonus
     assert_equal 10, @game_player.reload.points
   end
 
   test "awards correct bonus just under 4s (3s => 2 bonus)" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    @game_player.award_points!(@basic_question, 3)
+    @game_player.award_points!(10, 3)
     assert_equal 12, @game_player.reload.points
   end
 
   test "awards correct bonus just under 6s (5s => 1 bonus)" do
     @game_player.update!(points: 0)
-    @basic_question.question.update!(points: 10)
-
-    @game_player.award_points!(@basic_question, 5)
+    @game_player.award_points!(10, 5)
     assert_equal 11, @game_player.reload.points
   end
 
   # Private methods
+
+  # calculate_speed_bonus
 
   # High-point questions (points > 10) – exponential-like scaling
   test "high-point fast answer (0s)" do
@@ -300,6 +275,61 @@ class GamePlayerTest < ActiveSupport::TestCase
   test "bonus never negative even with high time" do
     bonus = @game_player.send(:calculate_speed_bonus, 100, 100)
     assert_equal 0, bonus
+  end
+
+  # calculate_streak_bonus
+
+  test "calculate_streak_bonus returns 0 when streak is 1" do
+    @game_player.stub :streak_length, 1 do
+      result = @game_player.send(:calculate_streak_bonus, 50)
+      assert_equal 0, result
+    end
+  end
+
+  test "calculate_streak_bonus returns correct bonus when streak is > 1" do
+    @game_player.stub :streak_length, 4 do
+      result = @game_player.send(:calculate_streak_bonus, 40)
+      # 40 * 4 * 0.25 = 40
+      assert_equal 40, result
+    end
+  end
+
+  test "calculate_streak_bonus rounds correctly" do
+    @game_player.stub :streak_length, 3 do
+      result = @game_player.send(:calculate_streak_bonus, 25)
+      # 25 * 3 * 0.25 = 18.75 → 19
+      assert_equal 19, result
+    end
+  end
+
+  # streak_length
+
+  test "streak_length returns 1 if no correct answers" do
+    @game_player.stub :player_answers, stub(order: stub(pluck: [false, false, true])) do
+      result = @game_player.send(:streak_length)
+      assert_equal 1, result
+    end
+  end
+
+  test "streak_length returns correct streak count - 3" do
+    @game_player.stub :player_answers, stub(order: stub(pluck: [true, true, true, false, true])) do
+      result = @game_player.send(:streak_length)
+      assert_equal 3, result
+    end
+  end
+
+  test "streak_length returns correct streak count - 2" do
+    @game_player.stub :player_answers, stub(order: stub(pluck: [true, true, false, true])) do
+      result = @game_player.send(:streak_length)
+      assert_equal 2, result
+    end
+  end
+
+  test "streak_length minimum is 1 even if all are wrong" do
+    @game_player.stub :player_answers, stub(order: stub(pluck: [false, false, false])) do
+      result = @game_player.send(:streak_length)
+      assert_equal 1, result
+    end
   end
 
 end

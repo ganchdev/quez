@@ -4,12 +4,13 @@
 #
 # Table name: game_players
 #
-#  id         :integer          not null, primary key
-#  points     :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  game_id    :integer          not null
-#  user_id    :integer          not null
+#  id             :integer          not null, primary key
+#  current_streak :integer
+#  points         :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  game_id        :integer          not null
+#  user_id        :integer          not null
 #
 # Indexes
 #
@@ -35,14 +36,19 @@ class GamePlayer < ApplicationRecord
   # Awards points to the game player by incrementing their total points with
   # the sum of the current question points with all the bonuses they can get
   #
-  # @param [GameQuestion] game_question
+  # @param [Integer] question_points
   # @param [Integer] time_taken
   # @return [GamePlayer]
-  def award_points!(game_question, time_taken)
-    question_points = game_question.question.points
+  def award_points!(question_points, time_taken)
     speed_bonus = calculate_speed_bonus(question_points, time_taken)
+    streak_bonus = calculate_streak_bonus(question_points)
 
-    increment!(:points, question_points + speed_bonus)
+    with_lock do
+      update_columns(
+        points: points + question_points + speed_bonus + streak_bonus,
+        current_streak: streak_length
+      )
+    end
   end
 
   private
@@ -75,6 +81,28 @@ class GamePlayer < ApplicationRecord
       when 4..6 then 1
       else 0
       end
+    end
+  end
+
+  # Calculates streak bonus based on the player's current
+  # streak length, the bonus is calculated by
+  # multiplying the question points with the streak length
+  # and the bonus multiplier which is 25%
+  #
+  # @param [Integer] question_points
+  # @return [Integer]
+  def calculate_streak_bonus(question_points)
+    return 0 if streak_length == 1
+
+    (question_points * streak_length * 0.25).round
+  end
+
+  # @return [Integer]
+  def streak_length
+    @streak_length ||= begin
+      recent_answers = player_answers.order(created_at: :desc).pluck(:correct)
+      streak = recent_answers.take_while { |correct| correct }.count
+      [streak, 1].max
     end
   end
 

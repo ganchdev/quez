@@ -21,7 +21,7 @@ class GamePlayerAnswersController < ApplicationController
 
     if player_answer.save
       if @answer.correct
-        @game_player.award_points!(@game_question.question, time_taken)
+        @game_player.award_points!(@game_question.question.points, time_taken)
       end
 
       render json: { message: "Answer submitted successfully" }, status: :ok
