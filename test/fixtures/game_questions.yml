@@ -42,13 +42,3 @@ second_in_one:
   game: one
   question: two
   current_phase: idle
-
-basic:
-  game: one
-  question: one
-  current_phase: answering
-
-high_value:
-  game: one
-  question: four
-  current_phase: answering
