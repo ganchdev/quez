@@ -22,6 +22,8 @@ class GamePlayerAnswersController < ApplicationController
     if player_answer.save
       if @answer.correct
         @game_player.award_points!(@game_question.question.points, time_taken)
+      else
+        @game_player.update(current_streak: 0)
       end
 
       render json: { message: "Answer submitted successfully" }, status: :ok
