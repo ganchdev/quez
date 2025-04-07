@@ -23,10 +23,21 @@ class Quiz < ApplicationRecord
 
   validates :title, presence: true
 
-  def playable?
-    return false if questions.empty?
+  attr_accessor :playable_error
 
-    questions.none? { |q| q.answers.count < 2 }
+  def playable?
+    if questions.empty?
+      self.playable_error = "Quiz is not playable because there are no questions in this quiz"
+      false
+    elsif questions.any? { |q| q.answers.count < 2 }
+      self.playable_error = "Quiz is not playable because some questions have fewer than 2 answers."
+      false
+    elsif !questions.all? { |q| q.answers.exists?(correct: true) }
+      self.playable_error = "Quiz is not playable because some quiestions don't have correct answers"
+      false
+    else
+      true
+    end
   end
 
 end

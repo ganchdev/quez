@@ -54,7 +54,7 @@ class QuizzesController < ApplicationController
       @game = @quiz.games.create(host: current_user)
       redirect_to host_game_path(@game), notice: "Wait for users to start the game."
     else
-      redirect_to @quiz, alert: "Quiz is not playable because some questions have fewer than 2 answers."
+      redirect_to @quiz, alert: @quiz.playable_error
     end
   end
 

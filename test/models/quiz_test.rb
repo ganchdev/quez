@@ -35,7 +35,7 @@ class QuizTest < ActiveSupport::TestCase
     assert_not @quiz.valid?
   end
 
-  test "playable? should return true if all questions have at least 2 answers" do
+  test "playable? should return true when quiz has questions, all have at least 2 answers, and all have correct answers" do
     @quiz = Quiz.new(
       title: "Example quiz 1",
       user: users(:one)
@@ -50,12 +50,24 @@ class QuizTest < ActiveSupport::TestCase
     question2.answers.create(text: "Answer 1", correct: true)
     question2.answers.create(text: "Answer 2", correct: false)
 
-    assert @quiz.playable?, "Quiz should be playable when all questions have at least 2 answers"
+    assert @quiz.playable?
+    assert_nil @quiz.playable_error
   end
 
-  test "playable? should return false if any question has fewer than 2 answers" do
+  test "playable? should return false when quiz has no questions" do
     @quiz = Quiz.new(
-      title: "Example quiz 2",
+      title: "Example quiz - no questions",
+      user: users(:one)
+    )
+    @quiz.save!
+
+    assert_not @quiz.playable?
+    assert_equal "Quiz is not playable because there are no questions in this quiz", @quiz.playable_error
+  end
+
+  test "playable? should return false when any question has fewer than 2 answers" do
+    @quiz = Quiz.new(
+      title: "Example quiz - insufficient answers",
       user: users(:one)
     )
     @quiz.save!
@@ -64,10 +76,30 @@ class QuizTest < ActiveSupport::TestCase
     question2 = @quiz.questions.create(text: "Question 2?")
 
     question1.answers.create(text: "Answer 1", correct: true)
-    question2.answers.create(text: "Answer 1", correct: true)
-    question2.answers.create(text: "Answer 2", correct: false)
+    question1.answers.create(text: "Answer 2", correct: false)
+    question2.answers.create(text: "Answer 1", correct: true) # Only one answer for question2
 
-    assert_not @quiz.playable?, "Quiz should not be playable when any question has fewer than 2 answers"
+    assert_not @quiz.playable?
+    assert_equal "Quiz is not playable because some questions have fewer than 2 answers.", @quiz.playable_error
+  end
+
+  test "playable? should return false when any question lacks a correct answer" do
+    @quiz = Quiz.new(
+      title: "Example quiz - no correct answers",
+      user: users(:one)
+    )
+    @quiz.save!
+
+    question1 = @quiz.questions.create(text: "Question 1?")
+    question2 = @quiz.questions.create(text: "Question 2?")
+
+    question1.answers.create(text: "Answer 1", correct: true)
+    question1.answers.create(text: "Answer 2", correct: false)
+    question2.answers.create(text: "Answer 1", correct: false)  # No correct answer
+    question2.answers.create(text: "Answer 2", correct: false)  # No correct answer
+
+    assert_not @quiz.playable?
+    assert_equal "Quiz is not playable because some quiestions don't have correct answers", @quiz.playable_error
   end
 
 end

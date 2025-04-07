@@ -6,12 +6,15 @@
     <%= form.textarea :text, required: true %>
 
     <%= form.label :points %>
-    <%= form.number_field :points, min: 0 %>
+    <%= form.number_field :points, min: 0, max: 100 %>
 
     <%= form.label :duration %>
-    <%= form.number_field :duration, min: 30 %>
+    <%= form.number_field :duration, min: 30, max: 240 %>
 
     <%= form.label :image %>
+    <% if question.image.representable? %>
+      <%= image_tag question.image.representation(resize_to_limit: [500, 500]), alt: "Question Image" %>
+    <% end %>
     <%= form.file_field :image %>
   </fieldset>
 

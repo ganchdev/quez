@@ -1,4 +1,12 @@
 <div class="questions-completed">
+  <%= content_for :top do %>
+    <div class="questions-header">
+      <small>Scoreboard</small>
+      <div class="questions-header-actions" data-turbo-prefetch="false">
+        <%= link_to "Leave game", root_path, data: { turbo_method: :get }, class: "secondary" %>
+      </div>
+    </div>
+  <% end %>
   <div class="questions-completed-results">
     <%= render "games/components/scoreboard", game: @game %>
   </div>

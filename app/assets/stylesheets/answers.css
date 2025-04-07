@@ -7,15 +7,14 @@
 .answer-choice {
   position: relative;
 
-  & input[type="radio"]{
-    visibility:hidden;
+  & input[type="radio"] {
+    visibility: hidden;
   }
 }
 
 .answer-label {
   width: 100%;
-  display: flex;
-  align-items: center;
+  display: flex !important;
   padding: 1rem;
   margin-bottom: 0;
   text-align: center;
@@ -39,26 +38,28 @@
 }
 
 .answer-label.selected {
-    background-color: var(--pico-primary-hover-background);
+  color: whitesmoke;
+  background-color: var(--pico-primary-hover-background);
 }
 
 @keyframes blink {
   0% {
-    background-color: #00A66E;
+    background-color: #00a66e;
   }
   50% {
     background-color: transparent;
   }
   100% {
-    background-color: #00A66E;
+    background-color: #00a66e;
   }
 }
 
 .answer-label-correct {
   animation-iteration-count: 1;
   animation: blink 1s linear forwards;
-  background-color: #00A66E;
-  border-color: #00A66E;
+  background-color: #00a66e;
+  border-color: #00a66e;
+  color: whitesmoke;
 }
 
 .hidden-radio {
@@ -67,6 +68,7 @@
 }
 
 .hidden-radio:checked + .answer-label {
+  color: whitesmoke;
   background-color: var(--pico-primary-hover-background);
   font-weight: bold;
 }
