@@ -68,7 +68,7 @@ class GamePlayer < ApplicationRecord
   # @param [Integer, nil] time_taken
   # @return [Integer]
   def calculate_speed_bonus(question_points, time_taken)
-    return 0 if time_taken.blank? || time_taken > 8
+    return 0 if time_taken.blank? || time_taken.negative? || time_taken > 8
 
     if question_points > 10
       max_bonus = (question_points * 0.3).round

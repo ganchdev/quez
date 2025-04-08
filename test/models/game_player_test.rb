@@ -225,9 +225,9 @@ class GamePlayerTest < ActiveSupport::TestCase
     assert_equal 300, bonus
   end
 
-  test "high-point negative time (should scale up)" do
+  test "negative time" do
     bonus = @game_player.send(:calculate_speed_bonus, 50, -2)
-    assert_equal 15, bonus
+    assert_equal 0, bonus
   end
 
   # Low-point questions (<= 10) – fixed tiers
