@@ -99,11 +99,9 @@ class GamePlayer < ApplicationRecord
 
   # @return [Integer]
   def streak_length
-    @streak_length ||= begin
-      recent_answers = player_answers.order(created_at: :desc).pluck(:correct)
-      streak = recent_answers.take_while { |correct| correct }.count
-      [streak, 1].max
-    end
+    recent_answers = player_answers.order(created_at: :desc).pluck(:correct)
+    streak = recent_answers.take_while { |correct| correct }.count
+    [streak, 1].max
   end
 
 end
