@@ -9,6 +9,12 @@
           <div class="scoreboard-player-info">
             <%= image_tag player.user.image, alt: player.user.name, width: 40, class: "scoreboard-players-avatar" %>
             <span class="scoreboard-player-name"><%= player.user.name %></span>
+            <% if player.current_streak > 1 && game.ended_at.nil? %>
+             <div class='wrapper'>
+               <% streak_text = "Streak of #{player.current_streak}!" %>
+               <p class="neon-text" data-text="<%= streak_text %>"><%= streak_text %></p>
+              </div>
+            <% end %>
           </div>
           <span class="scoreboard-player-points"><%= player.points %> pts</span>
         </li>

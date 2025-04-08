@@ -48,7 +48,9 @@ class AnswerTest < ActiveSupport::TestCase
 
   test "should not allow more than MAX_ANSWERS answers for a question" do
     question = questions(:one)
-    5.times { question.answers.create!(text: "Sample answer") }
+    question.answers.delete_all
+
+    6.times { question.answers.create!(text: "Sample answer") }
 
     extra_answer = question.answers.build(text: "Extra answer")
     assert_not extra_answer.valid?, "Answer should be invalid as it exceeds the answer limit"

@@ -4,7 +4,7 @@
     <% if host_user? %>
       <hr>
       <h4>
-        Invite players by sending them a 
+        Invite players by sending them a
         <%= link_to root_url + @game.key, data: { controller: "clipboard", action: "click->clipboard#copy", tooltip: "copy" } do %>
           <span>link to the game</span>
           <%= image_tag "copy.svg", width: 20, alt: "Copy link" %>

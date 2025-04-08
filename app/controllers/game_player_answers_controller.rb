@@ -16,9 +16,14 @@ class GamePlayerAnswersController < ApplicationController
       correct: @answer.correct
     )
 
+    time_at_answer = Time.current
+    time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_at).round : nil
+
     if player_answer.save
       if @answer.correct
-        @game_player.update(points: @game_player.points + @game_question.question.points)
+        @game_player.award_points!(@game_question.question.points, time_taken)
+      else
+        @game_player.update(current_streak: 0)
       end
 
       render json: { message: "Answer submitted successfully" }, status: :ok

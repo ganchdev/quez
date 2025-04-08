@@ -35,7 +35,7 @@ class QuizTest < ActiveSupport::TestCase
     assert_not @quiz.valid?
   end
 
-  test "playable? should return true when quiz has questions, all have at least 2 answers, and all have correct answers" do
+  test "playable? should return true when quiz has questions, all have at least 2 answers, and all have correct answers" do # rubocop:disable Layout/LineLength
     @quiz = Quiz.new(
       title: "Example quiz 1",
       user: users(:one)
