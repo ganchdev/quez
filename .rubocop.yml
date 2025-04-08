@@ -147,3 +147,6 @@ Metrics/ClassLength:
 
 Metrics/AbcSize:
   Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 8
