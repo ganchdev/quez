@@ -28,7 +28,7 @@ class GamePlayerAnswersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Answer submitted successfully", response_json["message"]
 
     @game_player.reload
-    assert @game_player.points > 0, "Player should receive points for correct answer"
+    assert @game_player.points.positive?, "Player should receive points for correct answer"
   end
 
   test "should create player answer with incorrect answer" do
