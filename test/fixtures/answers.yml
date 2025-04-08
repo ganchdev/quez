@@ -20,7 +20,7 @@
 
 one:
   question: one
-  text: Answer One 
+  text: Answer One
   correct: true
 
 two:
@@ -31,4 +31,14 @@ two:
 three:
   question: three
   text: Answer Three
+  correct: false
+
+correct:
+  question: one
+  text: Correct Answer
+  correct: true
+
+incorrect:
+  question: one
+  text: Incorrect answer
   correct: false
