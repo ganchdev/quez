@@ -61,6 +61,58 @@ class GameQuestionTest < ActiveSupport::TestCase
     assert_equal "idle", new_game_question.current_phase
   end
 
+  # Callbacks
+  test "does not change started_at when transitioning from answering to completed" do
+    original_time = 2.minutes.ago
+    @game_question.update!(current_phase: "answering", started_at: original_time)
+
+    @game_question.current_phase = "completed"
+    @game_question.save!
+
+    assert_equal original_time.to_i, @game_question.started_at.to_i
+  end
+
+  test "does not set started_at when directly creating with answering phase" do
+    freeze_time do
+      now = Time.current
+      new_question = GameQuestion.create!(
+        game: games(:one),
+        question: questions(:one),
+        current_phase: "answering"
+      )
+
+      assert_equal now, new_question.started_at
+    end
+  end
+
+  test "does not set started_at when updating other attributes while in answering phase" do
+    original_time = 2.minutes.ago
+    @game_question.update!(current_phase: "answering", started_at: original_time)
+
+    @game_question.updated_at = Time.current
+    @game_question.save!
+
+    assert_equal original_time.to_i, @game_question.started_at.to_i
+  end
+
+  test "preserves nil started_at when changing between non-answering phases" do
+    @game_question.update!(current_phase: "idle", started_at: nil)
+
+    @game_question.current_phase = "reading"
+    @game_question.save!
+
+    assert_nil @game_question.started_at
+  end
+
+  test "started_at is not set when changing to answering but validation fails" do
+    @game_question.game = nil
+    @game_question.current_phase = "answering"
+
+    assert_not @game_question.save
+
+    assert_nil @game_question.started_at
+  end
+
   # Methods
   test "answers_count should return correct counts" do
     player_answer = player_answers(:one)
