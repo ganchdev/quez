@@ -17,7 +17,7 @@ class GamePlayerAnswersController < ApplicationController
     )
 
     time_at_answer = Time.current
-    time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_at).round : 0
+    time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_at).round : nil
 
     if player_answer.save
       if @answer.correct

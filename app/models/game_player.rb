@@ -37,7 +37,7 @@ class GamePlayer < ApplicationRecord
   # the sum of the current question points with all the bonuses they can get
   #
   # @param [Integer] question_points
-  # @param [Integer] time_taken
+  # @param [Integer, nil] time_taken
   # @return [GamePlayer]
   def award_points!(question_points, time_taken)
     speed_bonus = calculate_speed_bonus(question_points, time_taken)
@@ -62,13 +62,13 @@ class GamePlayer < ApplicationRecord
   #
   # For low-value questions (<= 10 points), a simple tiered bonus is applied
   #
-  # time_taken is always expected to be >= 0
+  # time_taken is expected to be >= 0, or nil
   #
   # @param [Integer] question_points
-  # @param [Integer] time_taken
+  # @param [Integer, nil] time_taken
   # @return [Integer]
   def calculate_speed_bonus(question_points, time_taken)
-    return 0 if time_taken > 8
+    return 0 if time_taken.blank? || time_taken > 8
 
     if question_points > 10
       max_bonus = (question_points * 0.3).round
