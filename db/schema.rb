@@ -56,7 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_03_171237) do
     t.integer "points", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "current_streak"
+    t.integer "current_streak", default: 0, null: false
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["user_id"], name: "index_game_players_on_user_id"
   end

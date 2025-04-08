@@ -5,7 +5,7 @@
 # Table name: game_players
 #
 #  id             :integer          not null, primary key
-#  current_streak :integer
+#  current_streak :integer          default(0), not null
 #  points         :integer          default(0), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
