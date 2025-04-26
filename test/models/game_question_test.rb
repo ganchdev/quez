@@ -152,7 +152,7 @@ class GameQuestionTest < ActiveSupport::TestCase
     assert_nil @game_question.started_at
   end
 
-  test "reward_players_if_completed awards points to correct answers and resets streaks for incorrect or missing answers" do
+  test "reward_players_if_completed awards points to correct answers and resets streaks for incorrect or no answers" do
     @game_question.answering!
     @game = @game_question.game
     @question = @game_question.question
