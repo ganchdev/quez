@@ -81,7 +81,7 @@ class GameQuestionTest < ActiveSupport::TestCase
         current_phase: "answering"
       )
 
-      assert_equal nil, new_question.started_at
+      assert_nil new_question.started_at
     end
   end
 

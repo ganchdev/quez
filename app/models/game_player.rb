@@ -54,13 +54,7 @@ class GamePlayer < ApplicationRecord
   private
 
   # Calculates the bonus points a player earns for answering quickly.
-  #
-  # For high-value questions (> 10 points), the bonus is a percentage (30%)
-  # of the question's value, scaled linearly based on how fast the answer was submitted.
-  # Full bonus is awarded if answered in 2 seconds or less, and the bonus decreases
-  # to zero by 8 seconds. Bonus is rounded to the nearest integer.
-  #
-  # For low-value questions (<= 10 points), a simple tiered bonus is applied
+  # A simple tiered bonus is applied.
   #
   # time_taken is expected to be >= 0, or nil
   #
@@ -70,17 +64,11 @@ class GamePlayer < ApplicationRecord
   def calculate_speed_bonus(question_points, time_taken)
     return 0 if time_taken.blank? || time_taken.negative? || time_taken > 8
 
-    if question_points > 10
-      max_bonus = (question_points * 0.3).round
-      scale = [(8 - time_taken) / 6.0, 1.0].min
-      (scale * max_bonus).round
-    else
-      case time_taken
-      when 0..2 then 3
-      when 2..4 then 2
-      when 4..6 then 1
-      else 0
-      end
+    case time_taken
+    when 0..2 then 3
+    when 2..4 then 2
+    when 4..6 then 1
+    else 0
     end
   end
 
