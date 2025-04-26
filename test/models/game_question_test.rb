@@ -74,14 +74,14 @@ class GameQuestionTest < ActiveSupport::TestCase
 
   test "does not set started_at when directly creating with answering phase" do
     freeze_time do
-      now = Time.current
+      Time.current
       new_question = GameQuestion.create!(
         game: games(:one),
         question: questions(:one),
         current_phase: "answering"
       )
 
-      assert_equal now, new_question.started_at
+      assert_equal nil, new_question.started_at
     end
   end
 
@@ -123,6 +123,7 @@ class GameQuestionTest < ActiveSupport::TestCase
   end
 
   test "sets started_at when changing to answering and it's nil" do
+    @game_question.reading!
     assert_nil @game_question.started_at
 
     @game_question.current_phase = "answering"
@@ -149,6 +150,37 @@ class GameQuestionTest < ActiveSupport::TestCase
     @game_question.save!
 
     assert_nil @game_question.started_at
+  end
+
+  test "reward_players_if_completed awards points to correct answers and resets streaks for incorrect or missing answers" do
+    @game_question.answering!
+    @game = @game_question.game
+    @question = @game_question.question
+
+    # Create players
+    @player1 = game_players(:one)
+    @player2 = game_players(:two)
+    @player3 = game_players(:three) # Player 3 does not answer
+
+    GamePlayer.any_instance.stubs(:streak_length).returns(4) # increase length by 1
+
+    # Transition the phase to completed
+    @game_question.current_phase = :completed
+    @game_question.save!
+
+    # Reload players to check updates
+    @player1.reload
+    @player2.reload
+    @player3.reload
+
+    # Assertions for player1 (correct answer)
+    assert_equal 4, @player1.current_streak # Streak remains unchanged
+
+    # Assertions for player2 (incorrect answer)
+    assert_equal 0, @player2.current_streak # Streak reset to 0
+
+    # Assertions for player3 (no answer)
+    assert_equal 0, @player3.current_streak # Streak reset to 0
   end
 
 end

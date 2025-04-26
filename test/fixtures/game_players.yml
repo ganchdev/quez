@@ -21,8 +21,16 @@ one:
   game: one
   user: one
   points: 0
+  current_streak: 3
 
 two:
   game: one
   user: two
   points: 0
+  current_streak: 2
+
+three:
+  game: one
+  user: three
+  points: 0
+  current_streak: 1

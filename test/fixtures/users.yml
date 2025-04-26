@@ -20,7 +20,7 @@
 
 one:
   name: John Doe
-  email: john.doe@email.dev 
+  email: john.doe@email.dev
   first_name: John
   last_name: Doe
   image: https://example.com
@@ -30,4 +30,11 @@ two:
   email: doe.john@email.dev
   first_name: Doe
   last_name: John
+  image: https://example.com
+
+three:
+  name: George Three
+  email: george.three@email.dev
+  first_name: George
+  last_name: Three
   image: https://example.com

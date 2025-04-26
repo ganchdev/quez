@@ -63,7 +63,7 @@ class GamePlayerTest < ActiveSupport::TestCase
     player1.update!(points: 20)
     player2.update!(points: 50)
 
-    result = GamePlayer.by_points
+    result = GamePlayer.where(id: [player1, player2]).by_points
     assert_equal [player2, player1], result
   end
 

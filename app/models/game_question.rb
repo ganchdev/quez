@@ -26,6 +26,7 @@ class GameQuestion < ApplicationRecord
   has_many :player_answers, dependent: :destroy
 
   before_save :set_started_at_if_answering
+  before_save :reward_players_if_completed
 
   def answers_count
     player_answers.group(:answer_id).count
@@ -34,9 +35,26 @@ class GameQuestion < ApplicationRecord
   private
 
   def set_started_at_if_answering
-    return unless current_phase_changed? && answering? && started_at.nil?
+    return unless current_phase_changed?(from: :reading, to: :answering)
+    return unless started_at.nil?
 
     self.started_at = Time.current
+  end
+
+  def reward_players_if_completed
+    return unless current_phase_changed?(from: :answering, to: :completed)
+
+    all_players = game.game_players.includes(:player_answers)
+    all_players.find_each do |player|
+      current_question_answer = player.player_answers.find_by(game_question_id: id)
+      if current_question_answer&.correct
+        player.award_points!(question.points, current_question_answer.time_taken)
+      else
+        player.update(current_streak: 0)
+      end
+    end
+
+    true
   end
 
 end

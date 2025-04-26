@@ -6,6 +6,7 @@
 #
 #  id               :integer          not null, primary key
 #  correct          :boolean          not null
+#  time_taken       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  answer_id        :integer          not null
