@@ -177,50 +177,50 @@ class GamePlayerTest < ActiveSupport::TestCase
 
   # Private methods
 
-  # calculate_speed_bonus
+  # calculate_speed_bonus,
 
   test "low-point exact 2s" do
-    bonus = @game_player.send(:calculate_speed_bonus, 6, 2)
+    bonus = @game_player.send(:calculate_speed_bonus, 2)
     assert_equal 3, bonus
   end
 
   test "low-point exact 4s" do
-    bonus = @game_player.send(:calculate_speed_bonus, 6, 4)
+    bonus = @game_player.send(:calculate_speed_bonus, 4)
     assert_equal 2, bonus # falls into 2..4 range (.. is inclusive)
   end
 
   test "low-point edge 6s" do
-    bonus = @game_player.send(:calculate_speed_bonus, 6, 6)
+    bonus = @game_player.send(:calculate_speed_bonus, 6)
     assert_equal 1, bonus
   end
 
   test "low-point above 6s" do
-    bonus = @game_player.send(:calculate_speed_bonus, 6, 6.1)
+    bonus = @game_player.send(:calculate_speed_bonus, 6.1)
     assert_equal 0, bonus
   end
 
   test "low-point just under 2s" do
-    bonus = @game_player.send(:calculate_speed_bonus, 10, 1.9)
+    bonus = @game_player.send(:calculate_speed_bonus, 1.9)
     assert_equal 3, bonus
   end
 
   test "low-point negative time (should still max tier)" do
-    bonus = @game_player.send(:calculate_speed_bonus, 8, -1)
+    bonus = @game_player.send(:calculate_speed_bonus, -1)
     assert_equal 0, bonus
   end
 
   test "zero-point question" do
-    bonus = @game_player.send(:calculate_speed_bonus, 0, 1)
+    bonus = @game_player.send(:calculate_speed_bonus, 1)
     assert_equal 3, bonus # falls under low-point logic
   end
 
   test "negative-point question" do
-    bonus = @game_player.send(:calculate_speed_bonus, -5, 1)
+    bonus = @game_player.send(:calculate_speed_bonus, 1)
     assert_equal 3, bonus # still low-point logic
   end
 
   test "bonus never negative even with high time" do
-    bonus = @game_player.send(:calculate_speed_bonus, 100, 100)
+    bonus = @game_player.send(:calculate_speed_bonus, 100)
     assert_equal 0, bonus
   end
 

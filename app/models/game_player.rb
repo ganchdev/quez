@@ -40,12 +40,12 @@ class GamePlayer < ApplicationRecord
   # @param [Integer, nil] time_taken
   # @return [GamePlayer]
   def award_points!(question_points, time_taken)
-    speed_bonus = calculate_speed_bonus(question_points, time_taken)
     streak_bonus = calculate_streak_bonus(question_points)
+    speed_bonus = calculate_speed_bonus(time_taken)
 
     with_lock do
       update_columns(
-        points: points + question_points + speed_bonus + streak_bonus,
+        points: points + question_points + streak_bonus + speed_bonus,
         current_streak: streak_length
       )
     end
@@ -58,10 +58,9 @@ class GamePlayer < ApplicationRecord
   #
   # time_taken is expected to be >= 0, or nil
   #
-  # @param [Integer] question_points
   # @param [Integer, nil] time_taken
   # @return [Integer]
-  def calculate_speed_bonus(question_points, time_taken)
+  def calculate_speed_bonus(time_taken)
     return 0 if time_taken.blank? || time_taken.negative? || time_taken > 8
 
     case time_taken
