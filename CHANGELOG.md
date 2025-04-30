@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/ganchdev/quez/compare/v1.0.0...v1.1.0) (2025-04-30)
+
+
+### Features
+
+* add bonuses to the points system ([#104](https://github.com/ganchdev/quez/issues/104)) ([bc05859](https://github.com/ganchdev/quez/commit/bc0585922f32d906f9afdad0f9a1ca5ed0c81691))
+
+
+### Bug Fixes
+
+* scoreboard styling, quiz play errors ([52295e9](https://github.com/ganchdev/quez/commit/52295e95c7c7312d43312bcd9cb56dc9e39e0471))
+
 ## 1.0.0 (2024-12-26)
 
 
