@@ -1,6 +1,5 @@
 .scoreboard-container {
   max-height: calc(100vh - 4rem);
-  overflow-y: auto; 
   margin-top: 5rem;
 }
 
@@ -36,6 +35,12 @@
   font-weight: bold;
 }
 
+.scoreboard li.losers {
+  color: #999;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 .scoreboard-player-info {
   display: flex;
   align-items: center;
@@ -48,7 +53,7 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border-radius: var(--pico-border-radius, 2rem); 
+  border-radius: var(--pico-border-radius, 2rem);
 }
 
 .scoreboard-player-name {

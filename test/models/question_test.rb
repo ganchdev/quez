@@ -5,7 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
-#  duration   :integer          default(120), not null
+#  duration   :integer          default(40), not null
 #  points     :integer          default(1)
 #  position   :integer
 #  text       :text
@@ -50,32 +50,32 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test "validates points within range" do
-    question = Question.new(text: "Sample Question", quiz: quizzes(:one), duration: 120)
+    question = Question.new(text: "Sample Question", quiz: quizzes(:one))
 
     question.points = 0
     assert_not question.valid?
     assert_includes question.errors[:points], "must be greater than 0"
 
-    question.points = 101
+    question.points = 11
     assert_not question.valid?
-    assert_includes question.errors[:points], "must be less than or equal to 100"
+    assert_includes question.errors[:points], "must be less than or equal to 10"
 
-    question.points = 50
+    question.points = 5
     assert question.valid?
   end
 
   test "validates duration within range" do
     question = Question.new(text: "Sample Question", quiz: quizzes(:one), points: 10)
 
-    question.duration = 29
+    question.duration = 9
     assert_not question.valid?
-    assert_includes question.errors[:duration], "must be greater than 30"
+    assert_includes question.errors[:duration], "must be greater than or equal to 10"
 
-    question.duration = 241
+    question.duration = 101
     assert_not question.valid?
-    assert_includes question.errors[:duration], "must be less than or equal to 240"
+    assert_includes question.errors[:duration], "must be less than or equal to 100"
 
-    question.duration = 120
+    question.duration = 90
     assert question.valid?
   end
 

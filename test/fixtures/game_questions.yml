@@ -10,6 +10,7 @@
 #
 #  id            :integer          not null, primary key
 #  current_phase :integer          default("idle"), not null
+#  started_at    :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  game_id       :integer          not null
@@ -22,22 +23,22 @@
 #
 one:
   game: one
-  question: one 
+  question: one
   current_phase: idle
 
 two:
   game: one
-  question: two 
+  question: two
   current_phase: idle
 
 first_in_one:
   id: 1
   game: one
-  question: one 
+  question: one
   current_phase: idle
 
 second_in_one:
   id: 2
   game: one
-  question: two 
+  question: two
   current_phase: idle

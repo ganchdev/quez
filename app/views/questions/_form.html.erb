@@ -6,10 +6,10 @@
     <%= form.textarea :text, required: true %>
 
     <%= form.label :points %>
-    <%= form.number_field :points, min: 0, max: 100 %>
+    <%= form.number_field :points, min: 0, max: 10 %>
 
     <%= form.label :duration %>
-    <%= form.number_field :duration, min: 30, max: 240 %>
+    <%= form.number_field :duration, min: 10, max: 100 %>
 
     <%= form.label :image %>
     <% if question.image.representable? %>

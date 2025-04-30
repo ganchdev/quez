@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_26_220951) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
     t.integer "points", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "current_streak", default: 0, null: false
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["user_id"], name: "index_game_players_on_user_id"
   end
@@ -66,6 +67,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
     t.integer "current_phase", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "started_at"
     t.index ["game_id"], name: "index_game_questions_on_game_id"
     t.index ["question_id"], name: "index_game_questions_on_question_id"
   end
@@ -91,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
     t.boolean "correct", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "time_taken"
     t.index ["answer_id"], name: "index_player_answers_on_answer_id"
     t.index ["game_player_id"], name: "index_player_answers_on_game_player_id"
     t.index ["game_question_id"], name: "index_player_answers_on_game_question_id"
@@ -99,7 +102,7 @@ ActiveRecord::Schema[8.1].define(version: 2024_11_23_143824) do
   create_table "questions", force: :cascade do |t|
     t.integer "quiz_id", null: false
     t.text "text"
-    t.integer "duration", default: 120, null: false
+    t.integer "duration", default: 40, null: false
     t.integer "points", default: 1
     t.integer "position"
     t.datetime "created_at", null: false

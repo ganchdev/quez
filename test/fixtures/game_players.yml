@@ -4,12 +4,13 @@
 #
 # Table name: game_players
 #
-#  id         :integer          not null, primary key
-#  points     :integer          default(0), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  game_id    :integer          not null
-#  user_id    :integer          not null
+#  id             :integer          not null, primary key
+#  current_streak :integer          default(0), not null
+#  points         :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  game_id        :integer          not null
+#  user_id        :integer          not null
 #
 # Indexes
 #
@@ -20,8 +21,16 @@ one:
   game: one
   user: one
   points: 0
+  current_streak: 3
 
 two:
   game: one
   user: two
   points: 0
+  current_streak: 2
+
+three:
+  game: one
+  user: three
+  points: 0
+  current_streak: 1
