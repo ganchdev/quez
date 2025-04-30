@@ -21,7 +21,7 @@
 #
 class PlayerAnswer < ApplicationRecord
 
-  belongs_to :answer
+  belongs_to :answer, optional: true
   belongs_to :game_player
   belongs_to :game_question
 

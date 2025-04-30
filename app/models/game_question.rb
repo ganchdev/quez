@@ -47,6 +47,10 @@ class GameQuestion < ApplicationRecord
     all_players = game.game_players.includes(:player_answers)
     all_players.find_each do |player|
       current_question_answer = player.player_answers.find_by(game_question_id: id)
+      unless current_question_answer
+        player.player_answers.create(game_question: self, answer_id: -1, correct: false)
+      end
+
       if current_question_answer&.correct
         player.award_points!(question.points, current_question_answer.time_taken)
       else
