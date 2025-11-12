@@ -16,6 +16,11 @@
               </div>
             <% end %>
           </div>
+          <% if true %>
+            <span class="scoreboard-player-duration">
+              Answered in <%= pluralize game.current_question.player_answers.find_by(game_player_id: player.id).time_taken, "second" %>
+            </span>
+          <% end %>
           <span class="scoreboard-player-points"><%= player.points %> pts</span>
         </li>
       <% end %>

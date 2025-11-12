@@ -22,14 +22,25 @@ class PlayGameQuestionJob < ApplicationJob
   private
 
   def broadcast_countdown_timer(game_question, seconds)
-    seconds.downto(1) do |second|
+    remaining = seconds
+
+    loop do
+      if game_question.answering? && game_question.all_answered? && remaining > 5
+        remaining = 5
+      end
+
       Turbo::StreamsChannel.broadcast_update_to(
         game_question,
         target: [game_question, :timer],
         partial: "games/components/timer",
-        locals: { game_question: game_question, seconds: second }
+        locals: { game_question: game_question, seconds: remaining }
       )
+
       sleep 1
+
+      remaining -= 1
+
+      break if remaining.zero?
     end
   end
 

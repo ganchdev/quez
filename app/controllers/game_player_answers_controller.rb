@@ -12,13 +12,12 @@ class GamePlayerAnswersController < ApplicationController
     time_at_answer = Time.current
     time_taken = @game_question.started_at.present? ? (time_at_answer - @game_question.started_at).round : nil
 
-    player_answer = PlayerAnswer.build(
+    player_answer = PlayerAnswer.find_or_initialize_by(
       game_player: @game_player,
-      game_question: @game_question,
-      answer: @answer,
-      correct: @answer.correct,
-      time_taken: time_taken
+      game_question: @game_question
     )
+
+    player_answer.assign_attributes(answer: @answer, correct: @answer.correct, time_taken: time_taken)
 
     if player_answer.save
       render json: { message: "Answer submitted successfully" }, status: :ok

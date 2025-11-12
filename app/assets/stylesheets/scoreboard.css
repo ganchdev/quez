@@ -66,3 +66,9 @@
   font-weight: bold;
   color: var(--pico-primary-hover-background);
 }
+
+.scoreboard-player-duration {
+  font-size: 0.9rem;
+  color: #666;
+  margin-right: 2rem;
+}

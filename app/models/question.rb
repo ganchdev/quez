@@ -5,7 +5,7 @@
 # Table name: questions
 #
 #  id         :integer          not null, primary key
-#  duration   :integer          default(40), not null
+#  duration   :integer          default(20), not null
 #  points     :integer          default(1)
 #  position   :integer
 #  text       :text
