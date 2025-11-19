@@ -1,9 +1,9 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   static targets = ["choice"];
 
-  submit(event) {
+  submit() {
     const selectedRadio = this.choiceTargets.find((radio) => radio.checked);
 
     if (!selectedRadio) {
@@ -12,9 +12,5 @@ export default class extends Controller {
     }
 
     this.element.requestSubmit();
-
-    this.choiceTargets.forEach((radio) => {
-      radio.disabled = true;
-    });
   }
 }

@@ -28,6 +28,10 @@ class GameQuestion < ApplicationRecord
   before_save :set_started_at_if_answering
   before_save :reward_players_if_completed
 
+  def all_answered?
+    player_answers.count == game.game_players.count
+  end
+
   def answers_count
     player_answers.group(:answer_id).count
   end

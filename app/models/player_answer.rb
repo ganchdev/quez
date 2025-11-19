@@ -25,4 +25,14 @@ class PlayerAnswer < ApplicationRecord
   belongs_to :game_player
   belongs_to :game_question
 
+  validate :not_created_or_updated_after_game_question_completed, on: [:create, :update]
+
+  private
+
+  def not_created_or_updated_after_game_question_completed
+    return unless game_question.completed?
+
+    errors.add(:base, "cannot set or change answer after question completed")
+  end
+
 end
