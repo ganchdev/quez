@@ -52,13 +52,14 @@ class GameQuestion < ApplicationRecord
     all_players.find_each do |player|
       current_question_answer = player.player_answers.find_by(game_question_id: id)
       unless current_question_answer
-        player.player_answers.create(game_question: self, answer_id: -1, correct: false)
+        # player did not answer
+        player.player_answers.create!(game_question: self, answer_id: PlayerAnswer::NO_ANSWER_ID, correct: false)
       end
 
       if current_question_answer&.correct
         player.award_points!(question.points, current_question_answer.time_taken)
       else
-        player.update(current_streak: 0)
+        player.update!(current_streak: 0)
       end
     end
 
