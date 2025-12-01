@@ -7,8 +7,8 @@ class GamePlayerAnswersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
     @game = games(:one)
-    @game_question = game_questions(:one)
-    @correct_answer = answers(:correct)
+    @game_question = game_questions(:two)
+    @correct_answer = answers(:two)
     @incorrect_answer = answers(:incorrect)
     @game_player = game_players(:one)
 

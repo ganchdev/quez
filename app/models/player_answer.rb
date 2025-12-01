@@ -21,6 +21,8 @@
 #
 class PlayerAnswer < ApplicationRecord
 
+  NO_ANSWER_ID = -1
+
   belongs_to :answer, optional: true
   belongs_to :game_player
   belongs_to :game_question
@@ -30,7 +32,7 @@ class PlayerAnswer < ApplicationRecord
   private
 
   def not_created_or_updated_after_game_question_completed
-    return unless game_question.completed?
+    return if !game_question.completed? || answer_id == NO_ANSWER_ID
 
     errors.add(:base, "cannot set or change answer after question completed")
   end
