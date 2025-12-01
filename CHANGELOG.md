@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/ganchdev/quez/compare/v1.1.0...v1.2.0) (2025-12-01)
+
+
+### Features
+
+* a few gameplay updates ([#108](https://github.com/ganchdev/quez/issues/108)) ([377ccdc](https://github.com/ganchdev/quez/commit/377ccdccba42fc23fc96881ced25d947dcfaa11d))
+* allow answer choice to change before question complete ([377ccdc](https://github.com/ganchdev/quez/commit/377ccdccba42fc23fc96881ced25d947dcfaa11d))
+* display time taken on scoreboard ([377ccdc](https://github.com/ganchdev/quez/commit/377ccdccba42fc23fc96881ced25d947dcfaa11d))
+* reduce countdown when all players have answered ([377ccdc](https://github.com/ganchdev/quez/commit/377ccdccba42fc23fc96881ced25d947dcfaa11d))
+* reduce the default question duration to 20 seconds ([377ccdc](https://github.com/ganchdev/quez/commit/377ccdccba42fc23fc96881ced25d947dcfaa11d))
+
+
+### Bug Fixes
+
+* failing CI ([#109](https://github.com/ganchdev/quez/issues/109)) ([3fdf13d](https://github.com/ganchdev/quez/commit/3fdf13dc823a0f49009d5e6e19c0b30b80c5551e))
+
 ## [1.1.0](https://github.com/ganchdev/quez/compare/v1.0.0...v1.1.0) (2025-04-30)
 
 
